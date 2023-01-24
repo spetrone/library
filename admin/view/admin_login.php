@@ -1,7 +1,7 @@
 <?php include '../view/header.php'; ?>
 
 
-<main>
+
 
 <div class="container-sm justify-content-centre">
     <h2>Admin Login</h2>
@@ -23,6 +23,7 @@
                 <?php echo htmlspecialchars($login_err); ?>
             </span><br>
         </form>
-    </div>
-</main>
+</div>
+
+
 <?php include '../view/footer.php'; ?>

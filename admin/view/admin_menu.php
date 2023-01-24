@@ -1,8 +1,8 @@
 <?php include '../view/header.php'; ?>
 
 
-<main>
-    <nav>
+
+    <div>
     <h2>Admin Menu</h2>
 
     <ul>
@@ -21,7 +21,6 @@
     </div>
 
 
-    </nav>
+</div>
 
-</main>
 <?php include '../view/footer.php'; ?>
