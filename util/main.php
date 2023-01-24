@@ -72,13 +72,13 @@ function redirect_not_admin() {
     }
 }
 
-// //access control for all pages requiring any kind of session
-// function redirect_no_session() {
-//     if(!isset($_SESSION['customer']) && !isset($_SESSION['admin']) 
-//     && !isset($_SESSION['technician'])) {
-//         header("Location: /A3");
-//     }
-// }
+//access control for all pages requiring any kind of session
+function redirect_no_session() {
+    global $app_root;
+    if(!isset($_SESSION['reader']) && !isset($_SESSION['admin'])) {
+        header("Location: $app_root");
+    }
+}
 
 session_start();
 ?>

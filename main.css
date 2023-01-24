@@ -40,6 +40,10 @@ header ul {
 .navbar {
     background-color: #001963;
 }
+
+.navbar-brand, .nav-item, nav a, .nav-link {
+    color: #dbdbdb;
+}
 main {
     margin: 0;
     padding: .5em 2em .25em;

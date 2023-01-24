@@ -5,8 +5,9 @@ require_once('util/main.php'); ?>
 
 
   <div class="container-fluid align-self-centre">
-  <h1>Hello, world!</h1>    
-    </div>
+  <a href="admin?action=login">Admin Portal</a>
+  <a href="reader?action=login">Reader Login</a>   
+  </div>
 
 
 

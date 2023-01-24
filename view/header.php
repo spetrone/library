@@ -1,17 +1,13 @@
 <?php
 require_once('util/main.php');
 $css_path = $app_root . "main.css";
-    // //ensure each user type is directed to correct home page
-    // if(isset($_SESSION['admin'])) {
-    //     $home_path = "/A3/admin";
-    // } else if (isset($_SESSION['technician'])) {
-    //     $home_path = "/A3/technician";
-    // } else if (isset($_SESSION['customer'])) {
-    //     $home_path = "/A3/customer";
-    // } else {
-    //     $home_path = "/A3";
-    // }
-
+    //ensure each user type is directed to correct home page
+if (isset($_SESSION['admin'])) {
+  //     $home_path = "/A3/admin";
+  $logout_url = $app_root . "admin?action=logout";
+} else if (isset($_SESSION['reader'])) {
+  $logout_url = $app_root . "reader?action=logout";
+} 
 
 ?>
 
@@ -33,9 +29,9 @@ $css_path = $app_root . "main.css";
 <header>
   <!-- show nav bar, showing different buttons for different users-->
 
-<nav class="navbar navbar-expand-lg navbar-light ">
+<nav class="navbar navbar-expand-lg ">
   <div id="nav-div" class="container-fluid">
-    <a class="navbar-brand" href="#">Fabula</a>
+    <a class="navbar-brand" href=<?php echo get_home_path() ?>>Fabula</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -48,6 +44,12 @@ $css_path = $app_root . "main.css";
         <li class="nav-item">
           <a class="nav-link" href="#">library search</a>
         </li>
+        <!-- Show logout button if there is a session -->
+        <?php if (isset($_SESSION["admin"]) || isset($_SESSION["reader"])) : ?>
+          <li class="nav-item nav-right">
+            <a class="nav-link" href=<?php echo $logout_url ?>>logout</a>
+          </li>
+        <?php endif; ?>
       </ul>
     </div>
     <?php endif; ?>
