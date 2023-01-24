@@ -37,6 +37,12 @@ switch ($action) {
         break;
 
     case 'display_account':
+
+        //get user information
+        $reader = get_reader_by_email($_SESSION["reader"]);
+        //get book list/selections
+        $selection = get_book_list($reader["readerID"]);
+
         // View incident update module
         include("view/reader_account.php");
         break;

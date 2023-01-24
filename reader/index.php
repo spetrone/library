@@ -64,7 +64,9 @@ switch ($action) {
         
         // Check database - if valid email/password, log in
         if (is_valid_reader_login($email, $password)) {
+            //set user data in session
             $_SESSION['reader'] = $email;
+            
         } else {
             $login_err = 'Login failed! Invalid email or password.';
             include 'view/reader_login.php';
@@ -73,6 +75,10 @@ switch ($action) {
 
         // Go to next page
         header('Location: ./display_account');
+        break;
+    case 'display_account':
+         // Go to next page
+         header('Location: ./display_account');
         break;
 
     case 'logout':

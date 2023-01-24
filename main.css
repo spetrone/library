@@ -102,15 +102,7 @@ a:hover {
     color: #3333CC;
 }
 
-table {
-    border: 1px solid #001963;
-    border-collapse: collapse;
-}
-td, th {
-    border: 1px dashed #001963;
-    padding: .2em .5em .2em .5em;
-    text-align: left;
-}
+
 #no_border {
     border: 0px;
 }

@@ -25,6 +25,7 @@ require_once('model/database.php');
 // Define some common functions
 function display_db_error($error_message) {
     global $app_path;
+    global $app_root;
     include 'errors/db_error.php';
     exit;
 }
