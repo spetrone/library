@@ -19,11 +19,7 @@ if (isset($_SESSION['reader'])) {
     $action = 'login';
 } elseif ($action == 'logout') {
     $action = 'logout';
-} elseif ($action == 'display_account') {
-    $action = 'display_account';
-} elseif ($action == 'remove_book') {
-    $action = 'remove_book';
-} else {
+}  else {
     $action = 'view_login';
 }
 
@@ -78,10 +74,7 @@ switch ($action) {
         // Go to next page
         header('Location: ./display_account');
         break;
-    case 'update_incident':
-        // View incident update module
-        header('Location: ./display_account');
-        break;
+
     case 'logout':
         unset($_SESSION['technician']);
         session_destroy();

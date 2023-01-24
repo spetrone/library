@@ -18,7 +18,7 @@ redirect_no_session();
     </ul>
 
     <div id="user-logout">
-        <p><?php echo "You are logged in as " .  $_SESSION['admin']?></p>
+        <p><?php echo "You are logged in as " .  $_SESSION['reader']?></p>
         <form action="." method="post" id="admin_logout_form">
             <input type="hidden" name="action" value="logout">
             <input type="submit" value="Logout">
