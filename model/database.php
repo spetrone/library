@@ -1,7 +1,7 @@
 <?php
 // Set up the database connection
-$dsn = 'mysql:host=localhost;dbname=tech_support';
-$username = 'ts_user';
+$dsn = 'mysql:host=localhost;dbname=library_db';
+$username = 'lib_user';
 $pass = 'pa55word';
 $options = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
 

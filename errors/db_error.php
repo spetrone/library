@@ -1,4 +1,5 @@
 <?php
+include '../util.main.php';
 include 'view/header.php'; 
 
 if (!isset($error_message)) {

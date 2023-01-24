@@ -55,19 +55,18 @@ function get_home_path() : string {
 
 
 //user access control
-//for customer pages
-
-// function redirect_not_customer() {
-//     global $home_path;
-//     if(isset($_SESSION['admin']) || isset($_SESSION['technician'])) {
-//         header("Location: " . get_home_path());
-//     }
-// }
+//for read pages
+function redirect_not_reader() {
+    global $home_path;
+    if(isset($_SESSION['admin'])) {
+        header("Location: " . get_home_path());
+    }
+}
 
 //user access control for admin pages
 function redirect_not_admin() {
     global $home_path;
-    if(isset($_SESSION['customer']) || isset($_SESSION['technician'])) {
+    if(isset($_SESSION['reader'])) {
         header("Location: " . get_home_path());
     }
 }
