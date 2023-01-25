@@ -31,9 +31,8 @@ if (isset($_SESSION['reader'])) {
 switch ($action) {
     case 'view_login':
         // go back to other controller, back to login pag
-        
         //show view
-        header('Location: ./reader?action=view_login');
+        header('Location: ../?action=view_login');
         break;
 
     case 'display_account':

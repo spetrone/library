@@ -47,9 +47,9 @@ function get_home_path() : string {
     if(isset($_SESSION['admin'])) {
         $home_path = "/library/admin";
     } else if (isset($_SESSION['reader'])) {
-        $home_path = "/library/reader";
+        $home_path = "/library/reader/";
     } else {
-        $home_path = "/library";
+        $home_path = "/library/";
     }
     return $home_path;
 }

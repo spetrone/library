@@ -4,7 +4,7 @@ require_once('util/validation.php');
 require_once('util/secure_conn.php');
 require_once('model/reader_db.php');
 
-//redirect any non-technician users with active session
+//redirect any non-reader users with active session
 redirect_not_reader();
 
 $action = filter_input(INPUT_POST, 'action');
@@ -33,7 +33,7 @@ switch ($action) {
         $email_err = '';
         $password_err = '';
         
-        //show view
+        //got back to login
         include 'view/reader_login.php';
         break;
     case 'login':

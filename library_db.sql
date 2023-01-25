@@ -36,14 +36,15 @@ CREATE TABLE books (
     isbn10 varchar(13),
     isbn13 varchar(17),
     pubishYear smallint,
+    filePath varchar(260),
     PRIMARY KEY (bookID),
     FOREIGN KEY (authorID) REFERENCES authors(authorID)
 );
 
 INSERT INTO books VALUES 
-(NULL, 1, "1984", NULL, NULL, 1949),
-(NULL, 1, "Animal Farm", NULL, NULL, 1945),
-(NULL, 2, "The Adventures of Tom Sawyer", NULL, NULL, 1876);
+(NULL, 1, "1984", NULL, NULL, 1949, NULL),
+(NULL, 1, "Animal Farm", NULL, NULL, 1945, NULL),
+(NULL, 2, "The Adventures of Tom Sawyer", NULL, NULL, 1876, NULL);
 
 
 CREATE TABLE selections (
