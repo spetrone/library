@@ -18,15 +18,15 @@ redirect_no_session();
                 </tr>
                 <tr>
                     <td>Name: </td>
-                    <td><?php echo $reader["firstName"] . " " . $reader["lastName"]; ?></td>
+                    <td><?php echo htmlspecialchars($reader["firstName"]) . " " . htmlspecialchars($reader["lastName"]); ?></td>
                 </tr>
                 <tr>
                     <td>ID: </td>
-                    <td><?php echo $reader["readerID"] ?></td>
+                    <td><?php echo htmlspecialchars($reader["readerID"]) ?></td>
                 </tr>
                 <tr>
                     <td>Email: </td>
-                    <td><?php echo $reader["email"]; ?></td>
+                    <td><?php echo htmlspecialchars($reader["email"]); ?></td>
                 </tr>
             </table>
         </div>
@@ -41,8 +41,8 @@ redirect_no_session();
                 </tr>
                 <?php foreach ($selection as $book) : ?>
                 <tr>
-                <td><?php echo $book["title"]?></td>
-                    <td><?php echo $book["firstName"] . " " . $book["lastName"]?></td>
+                <td><?php echo htmlspecialchars($book["title"])?></td>
+                    <td><?php echo htmlspecialchars($book["firstName"]) . " " . htmlspecialchars($book["lastName"])?></td>
                     <td><a href="/library/book_files/test.pdf">PDF</a></td>
                     <td>Delete</td>
                 </tr>
@@ -52,15 +52,7 @@ redirect_no_session();
     </div>
 
 
-    <ul>
-        <!-- <li><a href="../manage_readers">Manage Readers</a></li> -->
-        <li><a href="../manage_books/?action=search_books">Edit Books</a></li>
-        <li><a href="../manage_books/?action=display_book_form">Add Book</a></li>
-       
-    </ul>
-
     <div id="user-logout">
-        <p><?php echo "You are logged in as " .  $_SESSION['reader']?></p>
         <form action="." method="post" id="admin_logout_form">
             <input type="hidden" name="action" value="logout">
             <input type="submit" value="Logout">

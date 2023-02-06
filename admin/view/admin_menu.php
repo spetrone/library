@@ -1,6 +1,6 @@
 <?php 
 include ('view/header.php');
-redirect_not_reader();
+redirect_not_admin();
 redirect_no_session();
 
 ?>

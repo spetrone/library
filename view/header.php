@@ -35,24 +35,26 @@ if (isset($_SESSION['admin'])) {
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <?php if (isset($_SESSION['reader'])) : ?>
+    
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
+      <?php if (isset($_SESSION['reader'])) : ?>
         <li class="nav-item">
           <a class="nav-link active"  href="#">account</a>
         </li>
+      <?php endif; ?>
+      <?php if (isset($_SESSION["admin"]) || isset($_SESSION["reader"])) : ?>
         <li class="nav-item">
-          <a class="nav-link" href="#">library search</a>
+          <a class="nav-link" href=<?php echo $app_root . "search" ?>>library search</a>
         </li>
         <!-- Show logout button if there is a session -->
-        <?php if (isset($_SESSION["admin"]) || isset($_SESSION["reader"])) : ?>
-          <li class="nav-item nav-right">
-            <a class="nav-link" href=<?php echo $logout_url ?>>logout</a>
-          </li>
+        <li class="nav-item nav-right">
+          <a class="nav-link" href=<?php echo $logout_url ?>>logout</a>
+        </li>
         <?php endif; ?>
       </ul>
     </div>
-    <?php endif; ?>
+    
   </div>
 </nav>
 </header>
