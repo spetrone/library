@@ -56,8 +56,12 @@ switch ($action) {
         break;
     case 'show_edit_book':
 
-        //create an empty book
+        //set page type for view
+        $page_type = 2;
+        $upload_msg = ""; //initialize/reset upload message
 
+        //create an empty book
+        $success_message = ""; //reset message to empty string
         if (!isset($author_list)) {$author_list = [];}
         $book = new Book(); //all parameters initialized to empty strings
 
@@ -82,9 +86,48 @@ switch ($action) {
         
         include "view/edit_book.php";
         break;
+    case 'edit_book':
+        $page_type = 2;
+        $success_message = ""; //initialize/reset success message
+        $upload_msg = ""; //initialize/reset upload message
+        $target_file = null; //initialize target file path to null
+
+        $book = new Book();
+        $book->setBookID($_POST["book_id"]);
+        $book->setTitle($_POST["book_title"]);
+        $book->setAuthorID($_POST["author_selector"]);
+        $book->setIsbn10($_POST["isbn10"]);
+        $book->setIsbn13($_POST["isbn13"]);
+        $book->setPublishYear($_POST["publish_year"]);
+
+        //get filepath
+        include "upload_file.php";
+        //use uploadOK flag from upload_file.php
+        if ($uploadOk) {
+            $book->setFilepath($target_file);
+        } else {
+            //set it to nothing
+            $book->setFilepath("");
+        }
+        
+
+
+        //if valid, submit to db, show success message
+        update_book($book);
+            
+            $success_message = "Successfully added book with ID " . $book->getBookID() . "!";
+        
+        #get author list for edit book form
+        $author_list = get_all_authors();
+        
+
+        //if not valid, show errors
+
+        include "view/edit_book.php";
+        break;
     default:
     $error_message = 'Unknown account action: ' . $action;
-    include "/library/";
+    
     break;
 }
 ?>

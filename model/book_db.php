@@ -1,4 +1,5 @@
 <?php
+require_once('model/BookClass.php');
 
 function get_all_books() {
     global $db;
@@ -33,6 +34,33 @@ function get_book_by_id($book_id) {
         $result = $statement->fetch();
         $statement->closeCursor();
         return $result;
+    } catch (PDOException $e) {
+        $error_message = $e->getMessage();
+        display_db_error($error_message);
+    }
+}
+
+
+function update_book(Book $edt_book) {
+    global $db;
+    $query = 'UPDATE books
+              SET authorID = :author_id, title = :title, isbn10 = :isbn10,
+              isbn13 = :isbn13, publishYear = :publish_year, filepath = :filepath
+              WHERE bookID = :book_id';
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':book_id', $edt_book->getBookID());
+        $statement->bindValue(':author_id', $edt_book->getAuthorID());
+        $statement->bindValue(':title', $edt_book->getTitle());
+        $statement->bindValue(':isbn10', $edt_book->getIsbn10());
+        $statement->bindValue(':isbn13', $edt_book->getIsbn13());
+        $statement->bindValue(':publish_year', $edt_book->getPublishYear());
+        $statement->bindValue(':filepath', $edt_book->getFilepath());
+        $statement->execute();
+        $statement->closeCursor();
+        // Get the last product ID that was automatically generated
+        $book_id = $db->lastInsertId();
+        return $book_id;
     } catch (PDOException $e) {
         $error_message = $e->getMessage();
         display_db_error($error_message);
