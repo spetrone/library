@@ -43,11 +43,15 @@ redirect_no_session();
                     <!-- Column for editing and deleting books - admin only -->
                     <?php if (isset($_SESSION['admin'])) : ?>
                     <td>
-                        <form action="" method="POST">
+                        <form style="display:inline-block;" action="./?action=show_edit_book" method="POST">
+                            <input type="hidden" name="selected_book" 
+                                value = <?php echo htmlspecialchars($book["bookID"])?>>
+                            <input type="submit" name="edit_button" value="edit">
+                        </form>
+                        <form style="display:inline-block;" action="./?action=delete_book" method="POST">
                             <input type="hidden" name="selected_book" 
                                 value = <?php echo htmlspecialchars($book["bookID"])?>>
                             <input type="submit" name="delete_button" value="delete">
-                            <input type="submit" name="edit_button" value="edit">
                         </form>
                     </td>
                     <?php endif; ?>

@@ -35,7 +35,7 @@ CREATE TABLE books (
     title varchar(100) NOT NULL,
     isbn10 varchar(13),
     isbn13 varchar(17),
-    pubishYear smallint,
+    publishYear smallint,
     filePath varchar(260),
     PRIMARY KEY (bookID),
     FOREIGN KEY (authorID) REFERENCES authors(authorID)
