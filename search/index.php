@@ -13,7 +13,7 @@ redirect_no_session();
 
 
 $action = filter_input(INPUT_POST, 'action');
-if (isset($_SESSION['admin'])) {
+if (isset($_SESSION['admin']) || isset($SESSION['reader'])) {
     if ($action == null) {
         $action = filter_input(INPUT_GET, 'action');
         if ($action == null ) {
@@ -59,6 +59,7 @@ switch ($action) {
         //set page type for view
         $page_type = 2;
         $upload_msg = ""; //initialize/reset upload message
+        $err_arr = []; //error array will be empty for initial form load
 
         //create an empty book
         $success_message = ""; //reset message to empty string
@@ -91,15 +92,42 @@ switch ($action) {
         $success_message = ""; //initialize/reset success message
         $upload_msg = ""; //initialize/reset upload message
         $target_file = null; //initialize target file path to null
+        $err_arr = []; //initizlize/reset error array
+        $isValid = 1; //flag for valid form data
 
-        //updat book
+        //update book, doing form validation
         $book = new Book();
-        $book->setBookID($_POST["book_id"]);
-        $book->setTitle($_POST["book_title"]);
-        $book->setAuthorID($_POST["author_selector"]);
-        $book->setIsbn10($_POST["isbn10"]);
-        $book->setIsbn13($_POST["isbn13"]);
-        $book->setPublishYear($_POST["publish_year"]);
+        
+        if (validate_book_title($_POST["book_title"]) && $isValid) {
+            $book->setTitle($_POST["book_title"]);
+        } else {
+            $err_arr["title"] = "invalid book title, please enter title < 255 chars.";
+            $isValid = 0;
+        }
+        
+        //author is selected, no validation needed in this form
+        if ($isValid) {
+            $book->setAuthorID($_POST["author_selector"]);
+        }
+        
+        if (validate_isbn10($_POST["isbn10"]) && $isValid) {
+            $book->setIsbn10($_POST["isbn10"]);
+        } else {
+            $err_arr["isbn10"] = "Invalid ISBN 10, please use the form  x-xxx-xxxxx-x. ";
+        }
+        
+        if (validate_isbn13($_POST["isbn13"]) && $isValid){
+            $book->setIsbn13($_POST["isbn13"]);
+        } else {
+            $err_arr["isbn13"] = "Invalid ISBN 13, please use the form xxx-x-xx-xxxxxx-x";
+        }
+
+        if (validate_year($_POST["publish_year"]) && $isValid ) {
+            $book->setPublishYear($_POST["publish_year"]);
+        } else {
+            $err_arr["year"] = "invalid year, please enter a 4-digit year YYYY.";
+        }
+        
 
         //get filepath
         include "upload_file.php";
@@ -108,8 +136,6 @@ switch ($action) {
             $book->setFilepath($target_file);
         } 
         
-
-
         //if valid, submit to db, show success message
         update_book($book);
       
