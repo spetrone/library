@@ -22,6 +22,11 @@ redirect_no_session();
         
         <div class="col">
             <h5>Books </h5>
+            <div>
+            <form  action="./?action=add_book" method="POST">
+                <input type="submit" name="add_button" value="Add Book">
+            </form>
+            </div>
             <!-- list all books returned from request to server
                 on initial page load, this is all books in the db-->
             <table class="table">
@@ -66,6 +71,7 @@ redirect_no_session();
 
             </table>
         </div>
+
     </div>
 
 

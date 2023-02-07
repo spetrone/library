@@ -39,6 +39,8 @@ switch ($action) {
 
         //Get books
         $all_books = get_all_books();
+        //unset selected book incase it was set, reset if back at this page
+        unset($_SESSION["selected_book"]);
  
         include 'view/search_books.php';
         break;
@@ -50,13 +52,12 @@ switch ($action) {
         // View admin menu
         include '';
         break;
-    case 'delete_book':
-
-        
+    case 'add_book':
+        #go to admin section
+        header("Location: " . $app_root . "admin/manage_books/?action=show_edit_book");
         break;
     case 'show_edit_book':
         #go to admin view to manage books
-
         $_SESSION['selected_book'] = filter_input(INPUT_POST, 'selected_book');
         header("Location: " . $app_root . "admin/manage_books/?action=show_edit_book");
         break;

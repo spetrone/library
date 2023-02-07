@@ -45,7 +45,7 @@ switch ($action) {
     case 'show_edit_book':
 
         //set page type for view
-        $page_type = 2;
+        $page_type = 1; //by default it is 1 = add book 
         $upload_msg = ""; //initialize/reset upload message
         $err_arr = []; //error array will be empty for initial form load
 
@@ -57,15 +57,16 @@ switch ($action) {
         #put selected book into session if the book id came from a post, otherwise it 
         #is a blank form for adding a book
 
-        $book_id = $_SESSION["selected_book"];
+        if (isset($_SESSION["selected_book"])) {
+            $book_id = $_SESSION["selected_book"];
+            $page_type = 2;
+        } 
         if ($edit_book = (get_book_by_id($book_id))) {
             $book->setBookID($edit_book["bookID"]);
             $book->setTitle($edit_book["title"]);
             $book->setAuthorID($edit_book["authorID"]);
             $book->setFirstName($edit_book["firstName"]);
             $book->setLastName($edit_book["lastName"]);
-            $book->setIsbn10($edit_book["isbn10"]);
-            $book->setIsbn13($edit_book["isbn13"]);
             $book->setPublishYear($edit_book["publishYear"]);
             $book->setFilepath($edit_book["filePath"]);
         }
@@ -99,20 +100,6 @@ switch ($action) {
         if ($isValid) {
             $book->setAuthorID($_POST["author_selector"]);
         }
-        
-        if (validate_isbn10(filter_input(INPUT_POST, 'isbn10')) && $isValid) {
-            $book->setIsbn10(filter_input(INPUT_POST, 'isbn10'));
-        } else {
-            $err_arr["isbn10"] = "Invalid ISBN 10, please use the form  x-xxx-xxxxx-x. ";
-            $isValid = 0;
-        }
-        
-        if (validate_isbn13(filter_input(INPUT_POST, 'isbn13')) && $isValid){
-            $book->setIsbn13(filter_input(INPUT_POST, 'isbn13'));
-        } else {
-            $err_arr["isbn13"] = "Invalid ISBN 13, please use the form xxx-x-xx-xxxxxx-x";
-            $isValid = 0;
-        }
 
         if (validate_year(filter_input(INPUT_POST, 'publish_year')) && $isValid ) {
             $book->setPublishYear(filter_input(INPUT_POST, 'publish_year'));
@@ -134,6 +121,7 @@ switch ($action) {
             //if valid, submit to db, show success message
             update_book($book);
             $success_message = "Successfully added book with ID " . $book->getBookID() . "!";
+            unset($_SESSION["selected_book"]);
             include "view/success_edit_book.php";
         } else {
             $success_message = "Could not edit book.";

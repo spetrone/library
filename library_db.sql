@@ -33,8 +33,6 @@ CREATE TABLE books (
     bookID int NOT NULL AUTO_INCREMENT,
     authorID int NOT NULL,
     title varchar(100) NOT NULL,
-    isbn10 varchar(13),
-    isbn13 varchar(17),
     publishYear smallint,
     filePath varchar(260),
     PRIMARY KEY (bookID),
@@ -42,9 +40,9 @@ CREATE TABLE books (
 );
 
 INSERT INTO books VALUES 
-(NULL, 1, "1984", NULL, NULL, 1949, NULL),
-(NULL, 1, "Animal Farm", NULL, NULL, 1945, NULL),
-(NULL, 2, "The Adventures of Tom Sawyer", NULL, NULL, 1876, NULL);
+(NULL, 1, "1984", 1949, NULL),
+(NULL, 1, "Animal Farm", 1945, NULL),
+(NULL, 2, "The Adventures of Tom Sawyer", 1876, NULL);
 
 
 CREATE TABLE selections (

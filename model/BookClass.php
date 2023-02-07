@@ -12,10 +12,6 @@ class Book {
 
     private $last_name = "";
 
-    private $isbn10 = "";
-
-    private $isbn13 = "";
-
     private $filepath = "";
 
     private $publishyear = "";
@@ -68,23 +64,6 @@ class Book {
 
     function getFullName() {
         return $this->full_name;
-    }
-
-
-    function getIsbn10() {
-        return $this->isbn10;
-    }
-
-    function setIsbn10($new_isbn) {
-        $this->isbn10 = $new_isbn;
-    }
-
-    function getIsbn13() {
-        return $this->isbn13;
-    }
-
-    function setIsbn13($new_isbn) {
-        $this->isbn13 = $new_isbn;
     }
 
     function getFilepath() {

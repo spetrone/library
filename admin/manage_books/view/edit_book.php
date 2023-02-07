@@ -54,18 +54,6 @@ if (!isset($page_type)) {
                 </div>
 
                 <div>
-                    <label>ISBN10:</label>
-                    <input type="text" name="isbn10" value="<?php 
-                    echo htmlspecialchars($book->getIsbn10())?>">
-                </div>
-
-                <div>
-                    <label>ISBN13:</label>
-                    <input type="text" name="isbn13" value="<?php echo 
-                    htmlspecialchars($book->getIsbn13())?>">
-                </div>
-
-                <div>
                     <input type="file" name="fileToUpload" id="fileToUpload">
                 </div>
 

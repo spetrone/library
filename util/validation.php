@@ -30,15 +30,10 @@ function is_valid_email($value) {
 
 /*** for book form */
 function validate_book_title($title) {
-    return 1;
-}
-
-function validate_isbn10($isbn) {
-    return 1;
-}
-
-function validate_isbn13($isbn) {
-    return 1;
+    if (strlen($title) < 255)
+        return 1;
+    else
+        return 0;
 }
 
 function validate_year($year) {
