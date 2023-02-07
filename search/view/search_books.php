@@ -38,7 +38,13 @@ redirect_no_session();
                 <tr>
                     <td><?php echo $book["title"]?></td>
                     <td><?php echo htmlspecialchars($book["firstName"]) . " " . htmlspecialchars($book["lastName"])?></td>
-                    <td><a href="/library/book_files/test.pdf">PDF</a></td>
+
+                    <!-- show pdf link if there is one for the book -->
+                    <?php if($book["filePath"] != "") : ?>
+                        <td><a href=<?php echo htmlspecialchars($book["filePath"]); ?>>PDF</a></td>
+                    <?php else : ?>
+                        <td><!-- no pdf, leave empty --></td>
+                    <?php endif; ?>
 
                     <!-- Column for editing and deleting books - admin only -->
                     <?php if (isset($_SESSION['admin'])) : ?>

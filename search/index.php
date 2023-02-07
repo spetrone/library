@@ -92,6 +92,7 @@ switch ($action) {
         $upload_msg = ""; //initialize/reset upload message
         $target_file = null; //initialize target file path to null
 
+        //updat book
         $book = new Book();
         $book->setBookID($_POST["book_id"]);
         $book->setTitle($_POST["book_title"]);
@@ -105,25 +106,18 @@ switch ($action) {
         //use uploadOK flag from upload_file.php
         if ($uploadOk) {
             $book->setFilepath($target_file);
-        } else {
-            //set it to nothing
-            $book->setFilepath("");
-        }
+        } 
         
 
 
         //if valid, submit to db, show success message
         update_book($book);
-            
-            $success_message = "Successfully added book with ID " . $book->getBookID() . "!";
-        
-        #get author list for edit book form
-        $author_list = get_all_authors();
-        
-
+      
+        $success_message = "Successfully added book with ID " . $book->getBookID() . "!";
+     
         //if not valid, show errors
 
-        include "view/edit_book.php";
+        include "view/success_edit_book.php";
         break;
     default:
     $error_message = 'Unknown account action: ' . $action;

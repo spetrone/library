@@ -8,6 +8,7 @@ if (!isset($page_type)) {
     $page_type = 1;} //default to add page (type 1)
 //page_type 2 is editing
 
+
 ?>
 
 <div>
@@ -70,8 +71,10 @@ if (!isset($page_type)) {
 
                 <div>
                     <label>Current file:</label>
+                    <?php if($book->getFilepath() != "") : ?>
                     <a href="<?php echo 
-                    htmlspecialchars($book->getFilepath())?>">
+                    htmlspecialchars($book->getFilepath())?>"  target=”_blank”>pdf</a>
+                    <? endif; ?>
                 </div>
 
                 <div>
