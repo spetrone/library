@@ -60,8 +60,8 @@ switch ($action) {
         if (isset($_SESSION["selected_book"])) {
             $book_id = $_SESSION["selected_book"];
             $page_type = 2;
-        } 
-        if ($edit_book = (get_book_by_id($book_id))) {
+
+            $edit_book = (get_book_by_id($book_id)); 
             $book->setBookID($edit_book["bookID"]);
             $book->setTitle($edit_book["title"]);
             $book->setAuthorID($edit_book["authorID"]);
@@ -69,7 +69,9 @@ switch ($action) {
             $book->setLastName($edit_book["lastName"]);
             $book->setPublishYear($edit_book["publishYear"]);
             $book->setFilepath($edit_book["filePath"]);
+        
         }
+
         
         #get author list for edit book form
         $author_list = get_all_authors();
@@ -119,7 +121,10 @@ switch ($action) {
         //show message of success or errors
         if ($isValid) {
             //if valid, submit to db, show success message
-            update_book($book);
+            if($_POST["page_type"] == 2)
+                update_book($book);
+            else
+                $book_id = add_book($book);
             $success_message = "Successfully added book with ID " . $book->getBookID() . "!";
             unset($_SESSION["selected_book"]);
             include "view/success_edit_book.php";
@@ -127,8 +132,6 @@ switch ($action) {
             $success_message = "Could not edit book.";
             include "view/edit_book.php";
         }
-        
-
         
         break;
     default:

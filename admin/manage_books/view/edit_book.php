@@ -18,9 +18,7 @@ if (!isset($page_type)) {
             <h5><?php if ($page_type == 2) echo "Edit Book";
                       else echo "Add Book"?></h5>
             <form enctype="multipart/form-data" method="POST" 
-                  action=<?php 
-                            if ($page_type == 2) echo "./?action=edit_book";
-                            else echo "./?action=add_book"; ?>>
+                  action="./?action=edit_book">
                 <div>
                     <label>Title:</label>
                     <input type="hidden" name="book_id" value = <?php
@@ -66,7 +64,10 @@ if (!isset($page_type)) {
                 </div>
 
                 <div>
-                    <input type="submit" name="save_edits" value="Save Edits">
+                <input type="hidden" name="page_type" value = <?php $page_type ?>>
+                    <input type="submit" name="save_edits" value=
+                    <?php if ($page_type == 2) echo "Save Edits"; 
+                            else echo "Save"; ?>>
                 </div>
             </form>
         </div>
