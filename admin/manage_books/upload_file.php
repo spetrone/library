@@ -3,15 +3,16 @@
 
 if(isset($_FILES["fileToUpload"]) ) {
     $newFileName = $book->getBookID() . ".pdf";
-    $uplpad_msg = "";
-    $target_dir =  "book_files/";
+    $upload_msg = "";
+    $target_dir =  "../..//book_files/";
     $target_file = $target_dir . $newFileName;
+    $filepath = $app_root . "book_files/" . $newFileName;
     $uploadOk = 1;
     $fileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
 
 // Check file size
-if ($_FILES["fileToUpload"]["size"] > 500000) {
+if ($_FILES["fileToUpload"]["size"] > 5000000) {
   $upload_msg .=  "Sorry, your file is too large.";
   $uploadOk = 0;
 }

@@ -1,5 +1,5 @@
 <?php 
-require_once('../util/main.php');
+require_once('../../util/main.php');
 require_once('util/validation.php');
 require_once('util/secure_conn.php');
 require_once('model/book_db.php');
@@ -22,39 +22,25 @@ if (isset($_SESSION['admin'])) {
             $action = 'load_books';            
         }
     }
-} elseif ($action == 'query_title') {
-    $action = 'query_title';
-} elseif ($action == 'query_author') {
-    $action = 'query_author';
 } elseif ($action == 'delete_book') {
     $action = 'delete_book';
 } elseif ($action == 'show_edit_book') {
     $action = 'show_edit_book';
 } elseif ($action == 'edit_book') {
     $action = 'edit_book';
-}else {
+} elseif ($action == 'add_book') {
+    $action = 'add_book';
+} else {
     $action = 'load_books';
 }
 
 switch ($action) {
     case 'load_books':
-
-        //Get books
-        $all_books = get_all_books();
- 
-        include 'view/search_books.php';
-        break;
-    case 'query_title':
-       
-        include 'view/admin_menu.php';
-        break;
-    case 'query_author':
-        // View admin menu
-        include '';
+        //go to main search area
+        header("Location: " . $app_root . "search");
         break;
     case 'delete_book':
-
-        
+        $book_id = $_SESSION["selected_book"];
         break;
     case 'show_edit_book':
 
@@ -71,7 +57,7 @@ switch ($action) {
         #put selected book into session if the book id came from a post, otherwise it 
         #is a blank form for adding a book
 
-        $book_id = filter_input(INPUT_POST, 'selected_book');
+        $book_id = $_SESSION["selected_book"];
         if ($edit_book = (get_book_by_id($book_id))) {
             $book->setBookID($edit_book["bookID"]);
             $book->setTitle($edit_book["title"]);
@@ -99,9 +85,11 @@ switch ($action) {
 
         //update book, doing form validation
         $book = new Book();
+
+        $book->setBookID($_POST["book_id"]);
         
-        if (validate_book_title($_POST["book_title"]) && $isValid) {
-            $book->setTitle($_POST["book_title"]);
+        if (validate_book_title(filter_input(INPUT_POST, 'book_title')) && $isValid) {
+            $book->setTitle(filter_input(INPUT_POST, 'book_title'));
         } else {
             $err_arr["title"] = "invalid book title, please enter title < 255 chars.";
             $isValid = 0;
@@ -112,22 +100,25 @@ switch ($action) {
             $book->setAuthorID($_POST["author_selector"]);
         }
         
-        if (validate_isbn10($_POST["isbn10"]) && $isValid) {
-            $book->setIsbn10($_POST["isbn10"]);
+        if (validate_isbn10(filter_input(INPUT_POST, 'isbn10')) && $isValid) {
+            $book->setIsbn10(filter_input(INPUT_POST, 'isbn10'));
         } else {
             $err_arr["isbn10"] = "Invalid ISBN 10, please use the form  x-xxx-xxxxx-x. ";
+            $isValid = 0;
         }
         
-        if (validate_isbn13($_POST["isbn13"]) && $isValid){
-            $book->setIsbn13($_POST["isbn13"]);
+        if (validate_isbn13(filter_input(INPUT_POST, 'isbn13')) && $isValid){
+            $book->setIsbn13(filter_input(INPUT_POST, 'isbn13'));
         } else {
             $err_arr["isbn13"] = "Invalid ISBN 13, please use the form xxx-x-xx-xxxxxx-x";
+            $isValid = 0;
         }
 
-        if (validate_year($_POST["publish_year"]) && $isValid ) {
-            $book->setPublishYear($_POST["publish_year"]);
+        if (validate_year(filter_input(INPUT_POST, 'publish_year')) && $isValid ) {
+            $book->setPublishYear(filter_input(INPUT_POST, 'publish_year'));
         } else {
             $err_arr["year"] = "invalid year, please enter a 4-digit year YYYY.";
+            $isValid = 0;
         }
         
 
@@ -135,17 +126,22 @@ switch ($action) {
         include "upload_file.php";
         //use uploadOK flag from upload_file.php
         if ($uploadOk) {
-            $book->setFilepath($target_file);
+            $book->setFilepath($filepath);
         } 
         
-        //if valid, submit to db, show success message
-        update_book($book);
-      
-        $success_message = "Successfully added book with ID " . $book->getBookID() . "!";
-     
-        //if not valid, show errors
+        //show message of success or errors
+        if ($isValid) {
+            //if valid, submit to db, show success message
+            update_book($book);
+            $success_message = "Successfully added book with ID " . $book->getBookID() . "!";
+            include "view/success_edit_book.php";
+        } else {
+            $success_message = "Could not edit book.";
+            include "view/edit_book.php";
+        }
+        
 
-        include "view/success_edit_book.php";
+        
         break;
     default:
     $error_message = 'Unknown account action: ' . $action;
