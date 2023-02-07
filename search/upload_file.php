@@ -1,8 +1,8 @@
 <?php
 
-$upload_msg = $_FILES["fileToUpload"]["name"];
+
 if(isset($_FILES["fileToUpload"])) {
-    $target_dir = $app_root + "book_files/";
+    $target_dir =  "book_files/";
     $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
     $uploadOk = 1;
     $fileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
