@@ -101,12 +101,14 @@ $( "#search_form" ).submit(function( event ) {
     event.preventDefault();
 
     var action_url = $form.attr( "action" );
+    console.log(action_url);
 
     var request = $.ajax({
         type: 'POST',
         url: action_url,
         data: sdata,
         dataType: "text",
+        
     });
 
 

@@ -13,7 +13,7 @@ redirect_no_session();
 
 
 $action = filter_input(INPUT_POST, 'action');
-if (isset($_SESSION['admin']) || isset($SESSION['reader'])) {
+if (isset($_SESSION['admin']) || isset($_SESSION['reader'])) {
     if ($action == null) {
         $action = filter_input(INPUT_GET, 'action');
         if ($action == null ) {
