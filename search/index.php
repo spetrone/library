@@ -4,6 +4,7 @@ require_once('util/validation.php');
 require_once('util/secure_conn.php');
 require_once('model/book_db.php');
 require_once('model/author_db.php');
+require_once('model/reader_db.php');
 require_once('model/BookClass.php');
 
 
@@ -35,8 +36,14 @@ if (isset($_SESSION['admin']) || isset($_SESSION['reader'])) {
 switch ($action) {
     case 'load_books':
 
-        //Get books
-        $all_books = get_all_books();
+        //Get books (all for admin, only those not in list for reader)
+        if (isset($_SESSION["admin"])) {
+            $all_books = get_all_books();
+        } elseif (isset($_SESSION["reader"])) {
+            $reader_id = (get_reader_by_email($_SESSION["reader"]))["readerID"];
+            $all_books = get_reader_books($reader_id);
+        }
+        
         //unset selected book incase it was set, reset if back at this page
         unset($_SESSION["selected_book"]);
  

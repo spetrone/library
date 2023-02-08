@@ -19,6 +19,28 @@ function get_all_books() {
     }
 }
 
+function get_reader_books($reader_id) {
+    global $db;
+    $query = '
+    SELECT *
+    FROM books JOIN authors
+    ON books.authorID=authors.authorID
+    WHERE bookID NOT IN (SELECT bookID 
+        FROM selections 
+        WHERE readerID = :reader_id)';
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':reader_id', $reader_id);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        return $result;
+    } catch (PDOException $e) {
+        $error_message = $e->getMessage();
+        display_db_error($error_message);
+    }
+}
+
 function search_by_title($title) {
     global $db;
     $query = '
