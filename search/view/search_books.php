@@ -4,16 +4,26 @@ include ('view/header.php');
 redirect_no_session();
 
 ?>
-
+<!-- include jquery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <div>
     <!-- Search form for querying books by author or title -->
     <div class="row">
         <div class="col">
-            <form action="" method="POST">
+            <form id="search_form" action="./?action=query_books" method="POST">
+
+                <label for="cars">Query Type:</label>
+                <select name="type_selector" id="type_selector">
+                <option value="lastname">Author lastname</option>
+                <option value="title">title</option>
+                </select>
+
                 <label>Enter Query:</label>
                 <input name="query" type=text>
                 <input type="submit" name="search_button" value="search">
+
             </form>
+            <p id="msg"></p>
         </div>
     </div>
    
@@ -40,6 +50,7 @@ redirect_no_session();
                     <?php endif; ?>
                 </tr>
 
+                <div id="table_contents">
                 <?php foreach ($all_books as $book) : ?>
                 <tr>
                     <td><?php echo $book["title"]?></td>
@@ -71,6 +82,7 @@ redirect_no_session();
                 </tr>
                 <?php endforeach; ?>
 
+                </div>
             </table>
         </div>
 
@@ -78,5 +90,54 @@ redirect_no_session();
 
 
 </div>
+
+<script>
+// Attach a submit handler to the form
+$( "#search_form" ).submit(function( event ) {
+
+    var $form = $( this )
+
+    // Get all the forms elements
+    var sdata = $(this).serialize();
+ 
+    // Stop form from submitting normally
+    event.preventDefault();
+
+    var action_url = $form.attr( "action" );
+
+    var request = $.ajax({
+        type: 'POST',
+        url: action_url,
+        data: sdata,
+        dataType: "text",
+        //   success: function(resultData) {
+            
+        //      var result_list = JSON.parse(resultData);
+        //      alert("here");
+        //      alert(result_list);
+        //      }
+    });
+
+
+  // Callback handler that will be called on success
+  request.done(function(resultData) {
+        
+    result_list = JSON.parse(resultData);
+    alert(result_list[0]["title"]);
+    });
+
+    // Callback handler that will be called on failure
+    request.fail(function (jqXHR, textStatus, errorThrown){
+        // Log the error to the console
+        console.error(
+            "The following error occurred: "+
+            textStatus, errorThrown
+        );
+    });
+ 
+});
+
+ 
+</script>
 
 <?php include 'view/footer.php'; ?>

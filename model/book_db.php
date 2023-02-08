@@ -19,6 +19,46 @@ function get_all_books() {
     }
 }
 
+function search_by_title($title) {
+    global $db;
+    $query = '
+    SELECT *
+    FROM books JOIN authors
+    ON books.authorID=authors.authorID
+    WHERE title LIKE :title';
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':title', '%'. $title . '%');
+        $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        return $result;
+    } catch (PDOException $e) {
+        $error_message = $e->getMessage();
+        display_db_error($error_message);
+    }
+}
+
+function search_by_lastname($lastname) {
+    global $db;
+    $query = '
+    SELECT *
+    FROM books JOIN authors
+    ON books.authorID=authors.authorID
+    WHERE lastName LIKE :lastname';
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':lastname', '%'. $lastname . '%');
+        $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        return $result;
+    } catch (PDOException $e) {
+        $error_message = $e->getMessage();
+        display_db_error($error_message);
+    }
+}
+
 
 function get_book_by_id($book_id) {
     global $db;

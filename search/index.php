@@ -20,10 +20,8 @@ if (isset($_SESSION['admin']) || isset($SESSION['reader'])) {
             $action = 'load_books';            
         }
     }
-} elseif ($action == 'query_title') {
-    $action = 'query_title';
-} elseif ($action == 'query_author') {
-    $action = 'query_author';
+} elseif ($action == 'query_books') {
+    $action = 'query_books';
 } elseif ($action == 'delete_book') {
     $action = 'delete_book';
 } elseif ($action == 'show_edit_book') {
@@ -44,13 +42,19 @@ switch ($action) {
  
         include 'view/search_books.php';
         break;
-    case 'query_title':
-       
-        include 'view/admin_menu.php';
-        break;
-    case 'query_author':
-        // View admin menu
-        include '';
+    case 'query_books':
+        $type = filter_input(INPUT_POST, "type_selector");
+        $query = filter_input(INPUT_POST, "query");
+        $result_list = [];
+        if ($type == "lastname") {
+            $result_list = search_by_lastname($query);
+        } elseif ($type == "title") {
+            $result_list = search_by_title($query);
+        }
+
+        //convert to json and echo for response
+        echo (json_encode($result_list));
+
         break;
     case 'add_book':
         #go to admin section
