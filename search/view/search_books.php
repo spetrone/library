@@ -23,7 +23,6 @@ redirect_no_session();
                 <input type="submit" name="search_button" value="search">
 
             </form>
-            <p id="msg"></p>
         </div>
     </div>
    
@@ -39,7 +38,7 @@ redirect_no_session();
             </div>
             <!-- list all books returned from request to server
                 on initial page load, this is all books in the db-->
-            <table class="table">
+            <table class="table" id="main_table">
                 <tr>
                     <td>Book Title</td>
                     <td>Author</td>
@@ -50,9 +49,8 @@ redirect_no_session();
                     <?php endif; ?>
                 </tr>
 
-                <div id="table_contents">
                 <?php foreach ($all_books as $book) : ?>
-                <tr>
+                <tr class="book_item">
                     <td><?php echo $book["title"]?></td>
                     <td><?php echo htmlspecialchars($book["firstName"]) . " " . htmlspecialchars($book["lastName"])?></td>
                     <td><?php echo htmlspecialchars($book["publishYear"])?></td>
@@ -82,7 +80,6 @@ redirect_no_session();
                 </tr>
                 <?php endforeach; ?>
 
-                </div>
             </table>
         </div>
 
@@ -110,20 +107,95 @@ $( "#search_form" ).submit(function( event ) {
         url: action_url,
         data: sdata,
         dataType: "text",
-        //   success: function(resultData) {
-            
-        //      var result_list = JSON.parse(resultData);
-        //      alert("here");
-        //      alert(result_list);
-        //      }
     });
 
 
   // Callback handler that will be called on success
   request.done(function(resultData) {
-        
-    result_list = JSON.parse(resultData);
-    alert(result_list[0]["title"]);
+    console.log(resultData);
+    var result_list = JSON.parse(resultData);
+    var result_table = document.createElement("div");
+
+    //remove old content, then add each row
+    $('#main_table tr').slice(1).remove();
+   
+    result_list.forEach(function(bookObj) {
+        var tabrow = document.createElement("tr");
+        console.log(bookObj);
+
+        //extract title, author name, publish year and file path
+            var tabdata = document.createElement("td");
+            var node = document.createTextNode(bookObj['title']);
+            tabdata.appendChild(node);
+            tabrow.appendChild(tabdata);
+
+            var tabdata = document.createElement("td");
+            var node = document.createTextNode(bookObj['firstName'].concat(" ", bookObj['lastName'] ) );
+            tabdata.appendChild(node);
+            tabrow.appendChild(tabdata);
+
+            var tabdata = document.createElement("td");
+            var node = document.createTextNode(bookObj['publishYear'] );
+            tabdata.appendChild(node);
+            tabrow.appendChild(tabdata);
+
+            var tabdata = document.createElement("td");
+            //only set if it is set in object
+            if(bookObj["filePath"] != null && bookObj["filePath"] != "" ) {
+                var tablink = document.createElement("a");
+                tablink.setAttribute("href", bookObj["filePath"]);
+                var node = document.createTextNode("PDF");
+                tablink.appendChild(node);
+                tabdata.appendChild(tablink);
+            }
+            tabrow.appendChild(tabdata);
+
+            //set add/delete buttons if admin
+            tabdata = document.createElement("td");
+            if ( Number(<?php if (isset($_SESSION['admin'])) echo 1;
+                      else echo 0; ?>)) 
+            {
+
+                var formel = document.createElement("form");
+                formel.setAttribute("action", "./?action=show_edit_book");
+                formel.setAttribute("method", "POST");
+                formel.setAttribute("style", "display:inline-block;");
+                var hidden = document.createElement("input");
+                hidden.setAttribute("type", "hidden");
+                hidden.setAttribute("name", "selected_book");
+                hidden.setAttribute("value", bookObj["bookID"]);
+                var submit = document.createElement("input");
+                submit.setAttribute("type", "submit");
+                submit.setAttribute("name", "edit_button");
+                submit.setAttribute("value", "edit");
+                formel.appendChild(hidden);
+                formel.appendChild(submit);
+
+                tabdata.appendChild(formel);
+
+                var formel = document.createElement("form");
+                formel.setAttribute("action", "../admin/manage_books/?action=delete_book");
+                formel.setAttribute("method", "POST");
+                formel.setAttribute("style", "display:inline-block;");
+                var hidden = document.createElement("input");
+                hidden.setAttribute("type", "hidden");
+                hidden.setAttribute("name", "selected_book");
+                hidden.setAttribute("value", bookObj["bookID"]);
+                var submit = document.createElement("input");
+                submit.setAttribute("type", "submit");
+                submit.setAttribute("name", "delete_button");
+                submit.setAttribute("value", "delete");
+                formel.appendChild(hidden);
+                formel.appendChild(submit);
+
+                tabdata.appendChild(formel);
+            }
+            tabrow.appendChild(tabdata);
+
+
+        $( "#main_table").append(tabrow);
+    })
+
     });
 
     // Callback handler that will be called on failure
