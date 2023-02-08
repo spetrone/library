@@ -44,9 +44,8 @@ redirect_no_session();
                     <td>Author</td>
                     <td>Year</td>
                     <td>PDF</td>
-                    <?php if (isset($_SESSION['admin'])) : ?>
-                        <td>Action</td>
-                    <?php endif; ?>
+                    <td>Action</td>
+
                 </tr>
 
                 <?php foreach ($all_books as $book) : ?>
@@ -74,6 +73,16 @@ redirect_no_session();
                             <input type="hidden" name="selected_book" 
                                 value = <?php echo htmlspecialchars($book["bookID"])?>>
                             <input type="submit" name="delete_button" value="delete">
+                        </form>
+                    </td>
+                    <?php endif; ?>
+                    <!-- possiblilty for readers to add book to list -->
+                    <?php if (isset($_SESSION['reader'])) : ?>
+                    <td>
+                        <form  action="./?action=add_to_list" method="POST">
+                            <input type="hidden" name="selected_book" 
+                                value = <?php echo htmlspecialchars($book["bookID"])?>>
+                            <input type="submit" name="addlist_button" value="add to list">
                         </form>
                     </td>
                     <?php endif; ?>
@@ -152,8 +161,9 @@ $( "#search_form" ).submit(function( event ) {
             }
             tabrow.appendChild(tabdata);
 
-            //set add/delete buttons if admin
+            //set add/delete buttons if admin, add to list button if reader
             tabdata = document.createElement("td");
+
             if ( Number(<?php if (isset($_SESSION['admin'])) echo 1;
                       else echo 0; ?>)) 
             {
@@ -192,6 +202,27 @@ $( "#search_form" ).submit(function( event ) {
 
                 tabdata.appendChild(formel);
             }
+
+            if ( Number(<?php if (isset($_SESSION['reader'])) echo 1;
+                      else echo 0; ?>)) 
+            {
+                var formel = document.createElement("form");
+                formel.setAttribute("action", "./?action=add_to_list");
+                formel.setAttribute("method", "POST");
+                var hidden = document.createElement("input");
+                hidden.setAttribute("type", "hidden");
+                hidden.setAttribute("name", "selected_book");
+                hidden.setAttribute("value", bookObj["bookID"]);
+                var submit = document.createElement("input");
+                submit.setAttribute("type", "submit");
+                submit.setAttribute("name", "addlist_button");
+                submit.setAttribute("value", "add to list");
+                formel.appendChild(hidden);
+                formel.appendChild(submit);
+
+                tabdata.appendChild(formel);
+            }
+
             tabrow.appendChild(tabdata);
 
 

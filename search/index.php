@@ -5,6 +5,7 @@ require_once('util/secure_conn.php');
 require_once('model/book_db.php');
 require_once('model/author_db.php');
 require_once('model/reader_db.php');
+require_once('model/selection_db.php');
 require_once('model/BookClass.php');
 
 
@@ -29,7 +30,9 @@ if (isset($_SESSION['admin']) || isset($_SESSION['reader'])) {
     $action = 'show_edit_book';
 } elseif ($action == 'edit_book') {
     $action = 'edit_book';
-}else {
+} elseif ($action == 'add_to_list') {
+    $action = 'add_to_list';
+} else {
     $action = 'load_books';
 }
 
@@ -50,15 +53,27 @@ switch ($action) {
         include 'view/search_books.php';
         break;
     case 'query_books':
+        
         $type = filter_input(INPUT_POST, "type_selector");
         $query = filter_input(INPUT_POST, "query");
         $result_list = [];
         if ($type == "lastname") {
-            $result_list = search_by_lastname($query);
+            if(isset($_SESSION["admin"])) {
+                $result_list = search_by_lastname($query);
+            } elseif (isset($_SESSION["reader"])) {
+                $reader_id = (get_reader_by_email($_SESSION["reader"]))["readerID"];
+                $result_list = search_by_lastname_reader($query, $reader_id);
+            }
+           
         } elseif ($type == "title") {
-            $result_list = search_by_title($query);
+            if(isset($_SESSION["admin"])) {
+                $result_list = search_by_title($query);
+            } elseif (isset($_SESSION["reader"])) {
+                $reader_id = (get_reader_by_email($_SESSION["reader"]))["readerID"];
+                $result_list = search_by_title_reader($query, $reader_id);
+            }
+           
         }
-
         //convert to json and echo for response
         echo (json_encode($result_list));
 
@@ -71,6 +86,18 @@ switch ($action) {
         #go to admin view to manage books
         $_SESSION['selected_book'] = filter_input(INPUT_POST, 'selected_book');
         header("Location: " . $app_root . "admin/manage_books/?action=show_edit_book");
+        break;
+
+    case 'add_to_list':
+        if(isset($_SESSION["reader"])) {
+            $reader_id = (get_reader_by_email($_SESSION["reader"]))["readerID"];
+                #add book to list, then go back to search
+            $book_id = filter_input(INPUT_POST, "selected_book");
+            add_to_list($reader_id, $book_id);
+        }
+
+        #refresh page to load books
+        header("Location: " . "./?action=load_books");
         break;
     
     default:

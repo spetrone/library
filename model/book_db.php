@@ -47,10 +47,34 @@ function search_by_title($title) {
     SELECT *
     FROM books JOIN authors
     ON books.authorID=authors.authorID
-    WHERE title LIKE :title';
+    WHERE title LIKE :title' ;
     try {
         $statement = $db->prepare($query);
         $statement->bindValue(':title', '%'. $title . '%');
+        $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        return $result;
+    } catch (PDOException $e) {
+        $error_message = $e->getMessage();
+        display_db_error($error_message);
+    }
+}
+
+function search_by_title_reader($title, $reader_id) {
+    global $db;
+    $query = '
+    SELECT *
+    FROM books JOIN authors
+    ON books.authorID=authors.authorID
+    WHERE title LIKE :title
+    AND bookID NOT IN (SELECT bookID 
+        FROM selections 
+        WHERE readerID = :reader_id)';
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':title', '%'. $title . '%');
+        $statement->bindValue(':reader_id', $reader_id);
         $statement->execute();
         $result = $statement->fetchAll();
         $statement->closeCursor();
@@ -71,6 +95,30 @@ function search_by_lastname($lastname) {
     try {
         $statement = $db->prepare($query);
         $statement->bindValue(':lastname', '%'. $lastname . '%');
+        $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        return $result;
+    } catch (PDOException $e) {
+        $error_message = $e->getMessage();
+        display_db_error($error_message);
+    }
+}
+
+function search_by_lastname_reader($lastname, $reader_id) {
+    global $db;
+    $query = '
+    SELECT *
+    FROM books JOIN authors
+    ON books.authorID=authors.authorID
+    WHERE lastName LIKE :lastname
+    AND bookID NOT IN (SELECT bookID 
+    FROM selections 
+    WHERE readerID = :reader_id)';
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':lastname', '%'. $lastname . '%');
+        $statement->bindValue(':reader_id', $reader_id);
         $statement->execute();
         $result = $statement->fetchAll();
         $statement->closeCursor();
