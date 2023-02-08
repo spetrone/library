@@ -33,6 +33,7 @@ redirect_no_session();
                 <tr>
                     <td>Book Title</td>
                     <td>Author</td>
+                    <td>Year</td>
                     <td>PDF</td>
                     <?php if (isset($_SESSION['admin'])) : ?>
                         <td>Action</td>
@@ -43,6 +44,7 @@ redirect_no_session();
                 <tr>
                     <td><?php echo $book["title"]?></td>
                     <td><?php echo htmlspecialchars($book["firstName"]) . " " . htmlspecialchars($book["lastName"])?></td>
+                    <td><?php echo htmlspecialchars($book["publishYear"])?></td>
 
                     <!-- show pdf link if there is one for the book -->
                     <?php if($book["filePath"] != "") : ?>
@@ -59,7 +61,7 @@ redirect_no_session();
                                 value = <?php echo htmlspecialchars($book["bookID"])?>>
                             <input type="submit" name="edit_button" value="edit">
                         </form>
-                        <form style="display:inline-block;" action="./?action=delete_book" method="POST">
+                        <form style="display:inline-block;" action="../admin/manage_books/?action=delete_book" method="POST">
                             <input type="hidden" name="selected_book" 
                                 value = <?php echo htmlspecialchars($book["bookID"])?>>
                             <input type="submit" name="delete_button" value="delete">

@@ -30,14 +30,17 @@ function is_valid_email($value) {
 
 /*** for book form */
 function validate_book_title($title) {
-    if (strlen($title) < 255)
+    if (isset($title) && strlen($title) > 0 && strlen($title) < 255)
         return 1;
     else
         return 0;
 }
 
 function validate_year($year) {
+    if (isset($year) && strlen($year) == 4 && is_numeric($year))
     return 1;
+else
+    return 0;
 }
 
 

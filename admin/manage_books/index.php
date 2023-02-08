@@ -40,14 +40,19 @@ switch ($action) {
         header("Location: " . $app_root . "search");
         break;
     case 'delete_book':
-        $book_id = $_SESSION["selected_book"];
+        #post comes from /search/index.php
+        $book_id = $_POST["selected_book"];
+        delete_book($book_id);
+        #go back to book search
+        header("Location: " . $app_root . "search");
         break;
     case 'show_edit_book':
 
         //set page type for view
         $page_type = 1; //by default it is 1 = add book 
         $upload_msg = ""; //initialize/reset upload message
-        $err_arr = []; //error array will be empty for initial form load
+        $year_error = ""; //reset/initialize error for year
+        $title_error = ""; //reset/initialize error for title
 
         //create an empty book
         $success_message = ""; //reset message to empty string
@@ -79,22 +84,27 @@ switch ($action) {
         include "view/edit_book.php";
         break;
     case 'edit_book':
-        $page_type = 2;
+        $page_type = $_POST["page_type"]; //get information about type of form
+        //1 is add, 2 is edit
         $success_message = ""; //initialize/reset success message
         $upload_msg = ""; //initialize/reset upload message
         $target_file = null; //initialize target file path to null
-        $err_arr = []; //initizlize/reset error array
+        $year_error = ""; //reset/initialize error for year
+        $title_error = ""; //reset/initialize error for title
         $isValid = 1; //flag for valid form data
 
         //update book, doing form validation
         $book = new Book();
 
-        $book->setBookID($_POST["book_id"]);
+        if ($page_type == 2) { //if editing
+            $book->setBookID($_POST["book_id"]);
+        }
         
+        //adding or editing, calidatoe title and year
         if (validate_book_title(filter_input(INPUT_POST, 'book_title')) && $isValid) {
             $book->setTitle(filter_input(INPUT_POST, 'book_title'));
         } else {
-            $err_arr["title"] = "invalid book title, please enter title < 255 chars.";
+            $title_error = "invalid book title, please enter title < 255 chars.";
             $isValid = 0;
         }
         
@@ -106,7 +116,7 @@ switch ($action) {
         if (validate_year(filter_input(INPUT_POST, 'publish_year')) && $isValid ) {
             $book->setPublishYear(filter_input(INPUT_POST, 'publish_year'));
         } else {
-            $err_arr["year"] = "invalid year, please enter a 4-digit year YYYY.";
+            $year_error = "invalid year, please enter a 4-digit year YYYY.";
             $isValid = 0;
         }
         
@@ -120,16 +130,21 @@ switch ($action) {
         
         //show message of success or errors
         if ($isValid) {
+            $db_id = 0; //initialize to 0
             //if valid, submit to db, show success message
-            if($_POST["page_type"] == 2)
-                update_book($book);
+            if((int)$_POST["page_type"] == 2)
+                $db_id = update_book($book);    
             else
-                $book_id = add_book($book);
-            $success_message = "Successfully added book with ID " . $book->getBookID() . "!";
+                $db_id = add_book($book);
+            
+            $success_message = "Successfully added book!";
             unset($_SESSION["selected_book"]);
+            
             include "view/success_edit_book.php";
         } else {
             $success_message = "Could not edit book.";
+            #get author list for edit book form
+            $author_list = get_all_authors();
             include "view/edit_book.php";
         }
         

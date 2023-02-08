@@ -25,6 +25,7 @@ if (!isset($page_type)) {
                      echo htmlspecialchars($book->getBookID()) ?>>
                     <input type="text" name="book_title" value="<?php 
                      echo htmlspecialchars($book->getTitle())?>">
+                     <p class="errors"><?php echo $title_error ?></p>
                 </div>
 
                 <div>
@@ -49,6 +50,7 @@ if (!isset($page_type)) {
                     <label>Publish Year:</label>
                     <input type="text" name="publish_year" value="<?php 
                     echo htmlspecialchars($book->getPublishYear())?>">
+                    <p class="errors"><?php echo $year_error ?></p>
                 </div>
 
                 <div>
@@ -64,7 +66,7 @@ if (!isset($page_type)) {
                 </div>
 
                 <div>
-                <input type="hidden" name="page_type" value = <?php $page_type ?>>
+                <input type="hidden" name="page_type" value=<?php echo $page_type ?>>
                     <input type="submit" name="save_edits" value=
                     <?php if ($page_type == 2) echo "Save Edits"; 
                             else echo "Save"; ?>>

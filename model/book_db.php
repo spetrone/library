@@ -85,4 +85,18 @@ function add_book(Book $edt_book) {
         display_db_error($error_message);
     }
 }
+
+function delete_book($book_id) {
+    global $db;
+    $query = 'DELETE FROM books WHERE bookID = :book_id';
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':book_id', $book_id);
+        $statement->execute();
+        $statement->closeCursor();
+    } catch (PDOException $e) {
+        $error_message = $e->getMessage();
+        display_db_error($error_message);
+    }
+}
 ?>
