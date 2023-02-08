@@ -12,18 +12,18 @@ redirect_no_session();
 
     <ul>
         <!-- <li><a href="../manage_readers">Manage Readers</a></li> -->
-        <li><a href="../manage_books/?action=search_books">Edit Books</a></li>
-        <li><a href="../manage_books/?action=display_book_form">Add Book</a></li>
+        <li><a href="manage_books/?action=load_books">Manage Books</a></li>
+        <li><a href="./manage_readers/">Manage Readers</a></li>
        
     </ul>
 
-    <div id="user-logout">
+    <!-- <div id="user-logout">
         <p><?php echo "You are logged in as " .  $_SESSION['admin']?></p>
         <form action="." method="post" id="admin_logout_form">
             <input type="hidden" name="action" value="logout">
             <input type="submit" value="Logout">
         </form>
-    </div>
+    </div> -->
 
 
 </div>

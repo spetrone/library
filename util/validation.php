@@ -43,6 +43,21 @@ else
     return 0;
 }
 
+/* For Reader forms ***/
+function validate_name($name) {
+    if (isset($name) && strlen($name) > 0 && strlen($name) < 255) {
+        return 1;
+    } else
+        return 0;
+}
+
+function validate_password($password) {
+    if (isset($password) && strlen($password) > 7 && strlen($password) < 128) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
 
 
 
