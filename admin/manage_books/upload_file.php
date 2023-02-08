@@ -1,7 +1,7 @@
 <?php
 
 
-if(isset($_FILES["fileToUpload"]) ) {
+if ($_FILES['fileToUpload']['error'] == UPLOAD_ERR_OK)  {
     $newFileName = $book->getBookID() . ".pdf";
     $upload_msg = "";
     $target_dir =  "../..//book_files/";
@@ -25,7 +25,7 @@ if($fileType != "pdf") {
 
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
-    $upload_msg .=  "Sorry, your file was not uploaded.";
+    $upload_msg .=  "Sorry, your file was not uploaded. ";
 // if everything is ok, try to upload file
 } else {
   if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
