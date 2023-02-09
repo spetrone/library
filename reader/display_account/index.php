@@ -45,6 +45,21 @@ switch ($action) {
         // View incident update module
         include("view/reader_account.php");
         break;
+    case 'remove_book':
+        //get user information
+        $reader= get_reader_by_email($_SESSION["reader"]);
+        $reader_id = $reader["readerID"];
+
+        //remove the book, then get db information to show page again
+        $book_id = filter_input(INPUT_POST,"selected_book");
+        remove_book_selection($reader_id, $book_id);
+
+        //get book list/selections
+        $selection = get_book_list($reader_id);
+
+        // View incident update module
+        include("view/reader_account.php");
+        break;
     case 'logout':
         unset($_SESSION['reader']);
         session_destroy();

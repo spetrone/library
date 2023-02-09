@@ -43,5 +43,23 @@ function add_to_list($reader_id, $book_id) {
 }
 
 
+function remove_book_selection($reader_id, $book_id) {
+    global $db;
+    $query = 'DELETE FROM selections WHERE readerID = :reader_id
+    AND bookID = :book_id';
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':reader_id', $reader_id);
+        $statement->bindValue(':book_id', $book_id);
+        $statement->execute();
+        $statement->closeCursor();
+    } catch (PDOException $e) {
+        $error_message = $e->getMessage();
+        display_db_error($error_message);
+    }
+}
+
+
+
 
 ?>

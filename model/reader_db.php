@@ -137,4 +137,19 @@ function update_reader($reader_id, $f_name, $l_name, $email, $password) {
 }
 
 
+function delete_reader($reader_id) {
+    global $db;
+    $query = 'DELETE FROM readers WHERE readerID = :reader_id';
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':reader_id', $reader_id);
+        $statement->execute();
+        $statement->closeCursor();
+    } catch (PDOException $e) {
+        $error_message = $e->getMessage();
+        display_db_error($error_message);
+    }
+}
+
+
 ?>

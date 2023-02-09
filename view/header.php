@@ -38,12 +38,21 @@ if (isset($_SESSION['admin'])) {
     
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-      <?php if (isset($_SESSION['reader'])) : ?>
-        <li class="nav-item">
-          <a class="nav-link active"  href="#">account</a>
-        </li>
-      <?php endif; ?>
+
       <?php if (isset($_SESSION["admin"]) || isset($_SESSION["reader"])) : ?>
+
+        <?php if (isset($_SESSION['admin'])) : ?>
+        <li class="nav-item">
+        <a class="nav-link" href=<?php echo get_home_path() ?>>home</a>
+        </li>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['reader'])) : ?>
+          <li class="nav-item">
+            <a class="nav-link active"  href=<?php echo get_home_path() ?>>account</a>
+          </li>
+        <?php endif; ?>
+
         <li class="nav-item">
           <a class="nav-link" href=<?php echo $app_root . "search" ?>>library search</a>
         </li>

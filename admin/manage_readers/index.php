@@ -39,7 +39,11 @@ switch ($action) {
         include "view/show_readers.php";
         break;
     case 'delete_reader':
-     
+        $reader_id = filter_input(INPUT_POST, "reader_id");
+        delete_reader($reader_id);
+
+        //reload page
+        header("Location: " . "./?action=show_readers");
         break;
     case 'show_edit_reader':
         //set strings used in page
