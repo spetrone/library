@@ -24,6 +24,12 @@ redirect_no_session();
 
             </form>
         </div>
+        <!-- Reset button -->
+        <div class="col">
+        <form  action="./?action=load_books" method="POST">
+            <input type="submit" name="reset_button" value="reset">
+        </form>
+        </div>
     </div>
    
     <div class="row">
@@ -32,9 +38,12 @@ redirect_no_session();
         <div class="col">
             <h5>Books </h5>
             <div>
-            <form  action="./?action=add_book" method="POST">
-                <input type="submit" name="add_button" value="Add Book">
-            </form>
+                <!-- Add book button, for admin only -->
+            <?php if (isset($_SESSION['admin'])) : ?>
+                <form  action="./?action=add_book" method="POST">
+                    <input type="submit" name="add_button" value="Add Book">
+                </form>
+            <?php endif; ?>
             </div>
             <!-- list all books returned from request to server
                 on initial page load, this is all books in the db-->
