@@ -39,23 +39,36 @@ function add_reader($fname, $lname, $email, $password) {
 }
 
 
-function is_valid_reader_login($email, $password) {
+//returns 0 on success, returns 1 for incorrect password, and 2 for 
+//incorrect email
+function is_invalid_reader_login($email, $password) {
     global $db;
     $query = 'SELECT * FROM readers
-              WHERE email = :email AND password = :password';
+              WHERE email = :email';
     try {
         $statement = $db->prepare($query);
         $statement->bindValue(':email', $email);
-        $statement->bindValue(':password', $password);
         $statement->execute();
+        $result = $statement->fetch();
         $valid = ($statement->rowCount() == 1);
         $statement->closeCursor();
-        return $valid;
+        //if there is an email match, verify password
+        if($valid) {
+            $db_password = $result["password"];
+            if (password_verify($password, $db_password)) {
+                return 0; //success
+            } else
+                return 1; //incorrect password
+        } else {
+            return 2; //error code for invalid email
+        }
+        
     } catch (PDOException $e) {
         $error_message = $e->getMessage();
         display_db_error($error_message);
     }
 } 
+
 
 function is_used_email($email) {
     global $db;

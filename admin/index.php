@@ -63,12 +63,19 @@ switch ($action) {
         }
         
         // Check database - if valid username/password, log in
-        if (is_valid_admin_login($user_name, $password)) {
-            $_SESSION['admin'] = $user_name;
-        } else {
-            $login_err = 'Login failed! Invalid username or password.';
+        if ($login_err = is_invalid_admin_login($user_name, $password)) {
+
+            if($login_err == 1) { //invalid password
+                $login_err = 'Login failed! Invalid password.';
+            } else if ($login_err == 2) { //invalid username
+                $login_err = 'Login failed! Invalid username.';
+            }
+            //same page, show errors
             include 'view/admin_login.php';
             break;
+            
+        } else {//success, set session
+            $_SESSION['admin'] = $user_name;
         }
 
         // Display Admin Menu page

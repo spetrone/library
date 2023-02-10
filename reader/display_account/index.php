@@ -42,6 +42,8 @@ switch ($action) {
         //get book list/selections
         $selection = get_book_list($reader["readerID"]);
 
+        ?><script> console.log("<?php echo password_hash("remember", PASSWORD_DEFAULT); ?>");</script><?
+
         // View incident update module
         include("view/reader_account.php");
         break;

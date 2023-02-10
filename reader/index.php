@@ -63,14 +63,18 @@ switch ($action) {
         }
         
         // Check database - if valid email/password, log in
-        if (is_valid_reader_login($email, $password)) {
-            //set user data in session
-            $_SESSION['reader'] = $email;
-            
-        } else {
-            $login_err = 'Login failed! Invalid email or password.';
+        if($pas_err = is_invalid_reader_login($email, $password)) {
+            if ($pas_err == 1) { //error code 1 - invalid password
+                $login_err = 'Login failed! Invalid password.';
+            } else if ($pas_err == 2) { //error code 2 - invalid email
+                $login_err = 'Login failed! Invalid email.';
+            }
             include 'view/reader_login.php';
             break;
+
+        } else {
+            //set user data in session
+            $_SESSION['reader'] = $email;
         }
 
         // Go to next page

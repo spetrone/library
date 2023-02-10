@@ -12,9 +12,10 @@ CREATE TABLE readers (
     PRIMARY KEY (readerID)
 );
 
+-- password is hashed "remember"
 INSERT INTO readers VALUES 
-(NULL, 'Alison', 'Diaz', 'alison@email.com',  'sesame'), 
-(NULL, 'Jason', 'Lee', 'jason@email.com', 'sesame');
+(NULL, 'Alison', 'Diaz', 'alison@email.com',  '$2y$10$XcvLG5OOBxiHszCoErABW.90u/SChekrutCFxHlIFfpJMgeCcRiei'), 
+(NULL, 'Jason', 'Lee', 'jason@email.com', '$2y$10$XcvLG5OOBxiHszCoErABW.90u/SChekrutCFxHlIFfpJMgeCcRiei');
 
 
 
@@ -60,13 +61,14 @@ INSERT INTO selections VALUES
 
 CREATE TABLE administrators (
   username    VARCHAR(40)    NOT NULL     UNIQUE,
-  password    VARCHAR(40)    NOT NULL,
+  password    VARCHAR(255)    NOT NULL,
   PRIMARY KEY (username)
 );
 
+-- password is hashed "remember"
 INSERT INTO administrators VALUES
-('admin', 'sesame'),
-('joel', 'sesame');
+('admin', '$2y$10$XcvLG5OOBxiHszCoErABW.90u/SChekrutCFxHlIFfpJMgeCcRiei'),
+('joel', '$2y$10$XcvLG5OOBxiHszCoErABW.90u/SChekrutCFxHlIFfpJMgeCcRiei');
 
 
 -- Create a user named ts_user
