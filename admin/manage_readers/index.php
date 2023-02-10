@@ -92,6 +92,8 @@ switch ($action) {
 
         //add if valid, otherwise show errors
         if($valid) {
+            //hash password
+            $password = password_hash($password, PASSWORD_DEFAULT);
             update_reader($reader_id, $fname, $lname, $email, $password);
             $success_message = "succesfully edited user!";
             include "view/edit_reader.php"; //show success message on same page
@@ -146,8 +148,10 @@ switch ($action) {
 
         //add if valid, otherwise show errors
         if($valid) {
+            //hash the password
+            $password = password_hash($password, PASSWORD_DEFAULT);
             add_reader($fname, $lname, $email, $password);
-            $reader_id = get_reader_by_email($email);
+            $reader_id = (get_reader_by_email($email))["readerID"];
             $success_message = "succesfully added user!";
             include "view/edit_reader.php"; //bring to edit user if they want
         } else {

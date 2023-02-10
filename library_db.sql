@@ -50,8 +50,10 @@ CREATE TABLE selections (
     readerID int NOT NULL,
     bookID int NOT NULL,
     PRIMARY KEY (readerID, bookID),
-    FOREIGN KEY (bookID) REFERENCES books(bookID),
+    FOREIGN KEY (bookID) REFERENCES books(bookID)
+    ON DELETE CASCADE,
     FOREIGN KEY (readerID) REFERENCES readers(readerID)
+    ON DELETE CASCADE
 );
 
 INSERT INTO selections VALUES 
