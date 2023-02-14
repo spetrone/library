@@ -3,7 +3,7 @@
 
 
 
-<div class="container-sm justify-content-centre">
+<div class="container-sm border border-3 justify-content-centre" style="background:#e0ecff; max-width: 700px">
     <h2>Admin Login</h2>
 
         <form action="." method="post" id="admin_login_form">
