@@ -6,13 +6,13 @@ require_once('util/main.php'); ?>
 style="height:250px;">
   <div class = "border border-3" style="background:#e0ecff;height:150px;">
   <div class="container-fluid align-self-centre">
-  <div>
-      <button type="button" class="btn btn-primary" style="margin:10px"><a href="admin?action=view_login"
-      style="color: #FFFFFF;text-decoration: none;">Admin Portal</a></button>
+  <div> 
+    <a href="admin?action=view_login"
+    class="btn btn-primary" role="button" style="color: #FFFFFF;text-decoration: none; margin:10px;">Admin Portal</a>
   </div>
   <div>
-      <button type="button" class="btn btn-primary" style="margin:10px"><a href="reader?action=view_login"
-      style="color: #FFFFFF;text-decoration: none;">Reader Login</a></button>
+      <a href="reader?action=view_login"
+      class="btn btn-primary" role="button" style="color: #FFFFFF;text-decoration: none; margin:10px;">Reader Login</a>
   </div>
 
 

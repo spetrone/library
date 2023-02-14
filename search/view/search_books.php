@@ -10,31 +10,34 @@ redirect_no_session();
     <!-- Search form for querying books by author or title -->
     <div class="row">
         <div class="col">
+            <div>
             <form id="search_form" action="./?action=query_books" method="POST">
 
-                <label for="cars">Query Type:</label>
-                <select name="type_selector" id="type_selector">
-                <option value="lastname">Author lastname</option>
-                <option value="title">title</option>
-                </select>
+                <div>
+                    <label for="cars">Query Type:</label>
+                    <select name="type_selector" id="type_selector">
+                    <option value="lastname">Author lastname</option>
+                    <option value="title">title</option>
+                    </select>
+                </div>
 
-                <label>Enter Query:</label>
-                <input name="query" type=text>
-                <input type="submit" name="search_button" value="search">
-
+                <div>
+                    <label>Enter Query:</label>
+                    <input name="query" type=text>
+                    <input type="submit" name="search_button" value="search">
+                </div>
             </form>
+            </div>
+
+
+
         </div>
         <!-- Reset button -->
-        <div class="col">
-        <form  action="./?action=load_books" method="POST">
-            <input type="submit" name="reset_button" value="reset">
-        </form>
-        </div>
+
     </div>
    
     <div class="row">
-
-        
+       
         <div class="col">
             <h5>Books </h5>
             <div>
@@ -44,6 +47,13 @@ redirect_no_session();
                     <input type="submit" name="add_button" value="Add Book">
                 </form>
             <?php endif; ?>
+            </div>
+
+            <!-- reset button on the right -->
+            <div class="d-flex justify-content-end pe-5">
+            <form  action="./?action=load_books" method="POST">
+                <input type="submit" name="reset_button" value="reset">
+            </form>
             </div>
             <!-- list all books returned from request to server
                 on initial page load, this is all books in the db-->
