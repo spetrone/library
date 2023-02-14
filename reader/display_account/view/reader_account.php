@@ -43,7 +43,11 @@ redirect_no_session();
                 <tr>
                 <td><?php echo htmlspecialchars($book["title"])?></td>
                     <td><?php echo htmlspecialchars($book["firstName"]) . " " . htmlspecialchars($book["lastName"])?></td>
-                    <td><a href="/library/book_files/test.pdf">PDF</a></td>
+                    <td>
+                        <?php if (isset($book["filePath"]) && $book["filePath"] != "" ) : ?>
+                        <a href=<?php echo $book["filePath"]?>>PDF</a>
+                        <?php endif; ?>
+                    </td>
                     <td>
                         <form  action="./?action=remove_book" method="POST">
                                 <input type="hidden" name="selected_book" 

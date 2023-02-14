@@ -174,6 +174,28 @@ function update_book(Book $edt_book) {
     }
 }
 
+function update_book_no_fp(Book $edt_book) {
+    global $db;
+    $query = 'UPDATE books
+              SET authorID = :author_id, title = :title, publishYear = :publish_year
+              WHERE bookID = :book_id';
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':book_id', $edt_book->getBookID());
+        $statement->bindValue(':author_id', $edt_book->getAuthorID());
+        $statement->bindValue(':title', $edt_book->getTitle());
+        $statement->bindValue(':publish_year', $edt_book->getPublishYear());
+        $statement->execute();
+        $statement->closeCursor();
+        // Get the last product ID that was automatically generated
+        $book_id = $db->lastInsertId();
+        return $book_id;
+    } catch (PDOException $e) {
+        $error_message = $e->getMessage();
+        display_db_error($error_message);
+    }
+}
+
 
 function add_book(Book $edt_book) {
     global $db;

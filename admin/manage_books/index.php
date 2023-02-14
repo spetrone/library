@@ -133,7 +133,12 @@ switch ($action) {
             $db_id = 0; //initialize to 0
             //if valid, submit to db, show success message
             if((int)$_POST["page_type"] == 2)
-                $db_id = update_book($book);    
+                if($book->getFilepath() != "") { //if file path set, update with filepath
+                    $db_id = update_book($book); 
+                } else { //update without file path
+                    $db_id = update_book_no_fp($book); 
+                }
+                   
             else
                 $db_id = add_book($book);
             
