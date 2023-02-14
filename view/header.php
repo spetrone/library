@@ -32,12 +32,15 @@ if (isset($_SESSION['admin'])) {
 <nav class="navbar navbar-expand-lg ">
   <div id="nav-div" class="container-fluid">
     <a class="navbar-brand" href=<?php echo get_home_path() ?>>Fabula</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+    
+    <!-- toggle button -->
+    <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon navbar-dark"></span>
     </button>
     
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+    
+      <ul class="navbar-nav me-auto">
 
       <?php if (isset($_SESSION["admin"]) || isset($_SESSION["reader"])) : ?>
 
@@ -56,12 +59,19 @@ if (isset($_SESSION['admin'])) {
         <li class="nav-item">
           <a class="nav-link" href=<?php echo $app_root . "search" ?>>library search</a>
         </li>
-        <!-- Show logout button if there is a session -->
-        <li class="nav-item nav-right">
-          <a class="nav-link" href=<?php echo $logout_url ?>>logout</a>
-        </li>
+
         <?php endif; ?>
       </ul>
+
+      <!-- logout button -->
+      <?php if (isset($_SESSION["admin"]) || isset($_SESSION["reader"])) : ?>
+      <ul class="navbar-nav ms-auto">
+               <!-- Show logout button if there is a session -->
+               <li class="nav-item">
+          <a class="nav-link" href=<?php echo $logout_url ?>>logout</a>
+        </li>
+      </ul>
+      <?php endif; ?>
     </div>
     
   </div>

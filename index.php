@@ -10,5 +10,4 @@ require_once('util/main.php'); ?>
   </div>
 
 
-
 <?php include 'view/footer.php'; ?>
