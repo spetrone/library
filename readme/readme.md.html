@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>readme.md</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="fabula-digital-library">Fabula Digital Library</h1>
+<p>This is a digital library built in PHP for storing pdf files of books.</p>
+<h2 id="requirements">Requirements</h2>
+<p>This was built and tested using XAMPP for Linux 7.4.33-0</p>
+<ul>
+<li>PHP 7.4.33</li>
+<li>MariaDB 10.4.27</li>
+<li>Apache 2.4.54</li>
+</ul>
+<h2 id="installation-and-running-instructions">Installation and Running Instructions</h2>
+<p><strong>1. Download XAMPP or manually set up an Apache web server with MariaDB and PHP</strong></p>
+<p>XAMPP can be downloaded here: <a href="https://www.apachefriends.org/">https://www.apachefriends.org/</a></p>
+<p><strong>2. Run the Apache Web server on the localhost (either from the XAMPP GUI or from the command line)</strong></p>
+<p><strong>3. Run the MariaDB database server on the localhost (either from the XAMPP GUI or from the command line)</strong></p>
+<p>On Linux, step 2 and 3 can be done with the command:</p>
+<pre><code>$ sudo /opt/lampp/lampp start
+</code></pre>
+<p><strong>4. Open phpMyAdmin in a browser with <a href="https://localhost/phpMyAdmin">https://localhost/phpMyAdmin</a></strong></p>
+<p><strong>5. Create a non-root user for phpMyAdmin and protect the root username with a password.</strong></p>
+<p>Initially login with the root username with no password (default), and change the password on the home screen in general setttings.</p>
+<p><strong>6. Log into phpMyAdmin and run/import the file <code>library_db.sql</code> (in the current directory).</strong><br>
+This creates and fills the database.</p>
+<p><strong>7. Put the folder labeled library in the htdocs directory found here (if using XAMPP):</strong></p>
+<pre><code>/opt/lampp/htdocs/
+</code></pre>
+<p><strong>8. Once the database is set up and running along with Apache, the web application can be accessed at:</strong><br>
+<a href="http://localhost/library">http://localhost/library</a></p>
+<p><em>To log into the different portals, use the following test accounts:</em></p>
+<p>Admin:<br>
+username: admin<br>
+password:  remember</p>
+<p>Reader:<br>
+email: <a href="mailto:jdoe@email.com">jdoe@email.com</a><br>
+password: remember</p>
+<h2 id="demo"><strong>Demo</strong></h2>
+<ol>
+<li>Landing Page<br>
+<img src="./demo1.png" alt="landing_page"></li>
+<li>Admin Login<br>
+<img src="./demo2.png" alt="admin_login"></li>
+<li>Admin Portal<br>
+<img src="./demo3.png" alt="admin_portal"></li>
+<li>Manage Books<br>
+<img src="./demo4.png" alt="manage_books"></li>
+<li>Add Book<br>
+<img src="./demo5.png" alt="add_book"></li>
+<li>Edit Book<br>
+<img src="./demo6.png" alt="edit_book"></li>
+<li>Manage Readers<br>
+<img src="./demo7.png" alt="manage_readers"></li>
+<li>Add Reader<br>
+<img src="./demo8.png" alt="add_reader"></li>
+<li>Edit Reader<br>
+<img src="./demo9.png" alt="edit_reader"></li>
+<li>Manage Authors<br>
+<img src="./demo10.png" alt="manage_authors"></li>
+<li>Add Author<br>
+<img src="./demo11.png" alt="add_author"></li>
+<li>Edit Author<br>
+<img src="./demo12.png" alt="edit_author"></li>
+<li>Search Library<br>
+<img src="./demo13.png" alt="search_library"></li>
+<li>Query in library<br>
+<img src="./demo14.png" alt="library_query"></li>
+<li>Reader Portal<br>
+<img src="./demo15.png" alt="reader_portal"></li>
+<li>Reader home<br>
+<img src="./demo16.png" alt="reader_home"></li>
+<li>Reader -Search library<br>
+<img src="./demo17.png" alt="reader_search"></li>
+</ol>
+</div>
+</body>
+
+</html>
