@@ -21,6 +21,11 @@ redirect_no_session();
             <a href="./manage_readers/"
             class="btn btn-primary" role="button" style="color: #FFFFFF;text-decoration: none; margin:10px;">Manage Readers</a>
         </div>
+
+        <div> 
+            <a href="./manage_authors/"
+            class="btn btn-primary" role="button" style="color: #FFFFFF;text-decoration: none; margin:10px;">Manage Authors</a>
+        </div>
      
     </ul>
 
