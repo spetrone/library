@@ -34,6 +34,10 @@ if (isset($_SESSION['admin'])) {
 
 switch ($action) {
     case 'show_readers':
+        
+        //unset session variable for editing reader if set
+        if(isset($_SESSION["edit_reader"])) { unset($_SESSION["edit_reader"]);}
+
         //select all readers from database
         $reader_list = get_all_readers();
         include "view/show_readers.php";
@@ -46,15 +50,31 @@ switch ($action) {
         header("Location: " . "./?action=show_readers");
         break;
     case 'show_edit_reader':
-        //set strings used in page
-        $reader_id = filter_input(INPUT_POST, "reader_id");
-        $reader = get_reader_by_id($reader_id);
-        $f_name_err = $l_name_err = $email_err = $password_err = $success_message ="";
-        $fname = $reader["firstName"];
-        $lname = $reader["lastName"];
-        $email = $reader["email"];
-        $password = $reader["password"];
-        include "view/edit_reader.php";
+        //set flag to make sure that a reader is selected
+        $is_selected = false;
+
+        //set strings used in page, set session var for reloads
+
+        //if set from post, use that value, otherwise get it from the session value
+        if(isset($_POST["reader_id"])) {
+            $_SESSION["edit_reader"] = $reader_id = filter_input(INPUT_POST, "reader_id");
+            $is_selected = true;
+        } else if (isset($_SESSION["edit_reader"])) {
+            $reader_id = $_SESSION["edit_reader"];
+            $is_selected = true;
+        }
+        if ($is_selected) { //if selected show on page
+            $reader = get_reader_by_id($reader_id); //do db call
+            $f_name_err = $l_name_err = $email_err = $password_err = $success_message ="";
+            $fname = $reader["firstName"];
+            $lname = $reader["lastName"];
+            $email = $reader["email"];
+            $password = $reader["password"];
+            include "view/edit_reader.php";
+        } else { //no reader is selected, redirect
+            header("Location: " . "./?action=show_readers");
+        }
+
         break;
     case 'edit_reader':
         $f_name_err = $l_name_err = $email_err = $password_err = $success_message =""; //reset error messages

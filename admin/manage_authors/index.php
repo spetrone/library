@@ -34,6 +34,10 @@ if (isset($_SESSION['admin'])) {
 
 switch ($action) {
     case 'show_authors':
+
+        //unset session variable for editing author if set
+        if(isset($_SESSION["edit_author"])) { unset($_SESSION["edit_author"]);}
+        
         //select all authors from database
         $author_list = get_all_authors();
         include "view/show_authors.php";
@@ -46,13 +50,31 @@ switch ($action) {
         header("Location: " . "./?action=show_authors");
         break;
     case 'show_edit_author':
-        //set strings used in page
-        $author_id = filter_input(INPUT_POST, "author_id");
-        $author = get_author_by_id($author_id);
-        $f_name_err = $l_name_err = $success_message ="";
-        $fname = $author["firstName"];
-        $lname = $author["lastName"];
-        include "view/edit_author.php";
+
+       //set flag to make sure that a author is selected
+       $is_selected = false;
+
+       //set strings used in page, set session var for reloads
+
+       //if set from post, use that value, otherwise get it from the session value
+       if(isset($_POST["author_id"])) {
+           $_SESSION["edit_author"] = $author_id = filter_input(INPUT_POST, "author_id");
+           $is_selected = true;
+       } else if (isset($_SESSION["edit_author"])) {
+           $author_id = $_SESSION["edit_author"];
+           $is_selected = true;
+       }
+       if ($is_selected) { //if selected show on page
+           $author = get_author_by_id($author_id); //do db call
+           $f_name_err = $l_name_err = $success_message ="";
+           $fname = $author["firstName"];
+           $lname = $author["lastName"];
+
+           include "view/edit_author.php";
+       } else { //no author is selected, redirect
+           header("Location: " . "./?action=show_authors");
+       }
+
         break;
     case 'edit_author':
         $f_name_err = $l_name_err = $success_message =""; //reset error messages
