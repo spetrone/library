@@ -46,7 +46,7 @@ redirect_not_admin(); //for admins only
         </div>
     </div>
     <div class="row">
-        <div class="col">s
+        <div class="col">
             <a href="./?action=show_readers">Back to Reader list</a>
         </div>
     </div>
