@@ -84,96 +84,110 @@ password: remember</p>
 <p>The entire application is built using the model-view-controller architecture.</p>
 <ul>
 <li>Every section has the controller as the index.php file.</li>
-<li>Models are all in the /model/ directory</li>
-<li>Views relevant to each controller are in the ./view/ directory within the directory of that index.php file</li>
+<li>Models are all in the <code>/model/</code> directory</li>
+<li>Views relevant to each controller are in the <code>./view/</code> directory within the directory of that index.php file</li>
 </ul>
 <h3 id="site-wide-files">Site-wide files</h3>
 <ul>
 <li>
-<p>/util/</p>
+<p><code>/util/</code></p>
 <ul>
-<li>main.php : contains global functions and variables used site-wide</li>
-<li>secure_conn.php : contains function for enforcing HTTPS used site-wide</li>
-<li>validation.php : contains all validation functions used in controllers site-wide</li>
-</ul>
+<li>
+<p><code>main.php</code> : contains global functions and variables used site-wide</p>
+</li>
+<li>
+<p><code>secure_conn.php</code> : contains function for enforcing HTTPS used site-wide</p>
+</li>
+<li>
+<p><code>validation.php</code> : contains all validation functions used in controllers site-wide</p>
 </li>
 <li>
 <p>/view/</p>
-<ul>
-<li>header.php : contains the site-wide html for the header along with style scripts</li>
-<li>footer.php : contains the side-wide html for the footer along with scripts used by Bootstrap5</li>
+</li>
+<li>
+<p><code>header.php</code> : contains the site-wide html for the header along with style scripts</p>
+</li>
+<li>
+<p><code>footer.php</code> : contains the side-wide html for the footer along with scripts used by Bootstrap5</p>
+</li>
 </ul>
 </li>
 <li>
-<p>/model/<br>
+<p><code>/model/</code><br>
 -<em>contains all the db operations specific to the object/database table</em></p>
 <ul>
-<li>admin_db.php</li>
-<li>author_db.php</li>
-<li>book_db.php</li>
-<li>BookClass.php : contains the definition of the Book class</li>
-<li>database.php : contains the function for connecting to the database</li>
-<li>reader_db.php</li>
-<li>selection_db.php</li>
+<li><code>admin_db.php</code></li>
+<li><code>author_db.php</code></li>
+<li><code>book_db.php</code></li>
+<li><code>BookClass.php :</code> contains the definition of the Book class</li>
+<li><code>database.php</code> : contains the function for connecting to the database</li>
+<li><code>reader_db.php</code></li>
+<li><code>selection_db.php</code></li>
 </ul>
 </li>
 <li>
-<p>/errors/</p>
+<p><code>/errors/</code></p>
 <ul>
-<li>db_error_connect.php : contains error handling function for db connection failure</li>
-<li>db_error.php : contains error handling for all db errors</li>
-<li>error.php : contains general error handling functions</li>
+<li><code>db_error_connect.php</code> : contains error handling function for db connection failure</li>
+<li><code>db_error.php</code> : contains error handling for all db errors</li>
+<li><code>error.php</code> : contains general error handling functions</li>
 </ul>
 </li>
 </ul>
-<p><strong>Admin Portal</strong></p>
+<h3 id="admin-portal"><strong>Admin Portal</strong></h3>
 <ul>
 <li>Login/logout
 <ul>
-<li>controller: /admin/index.php</li>
-<li>views: /admin/view/</li>
+<li>controller: <code>/admin/index.php</code></li>
+<li>views: <code>/admin/view/</code></li>
 </ul>
 </li>
 <li>Manage Readers
 <ul>
-<li>controller: /admin/manage_readers/index.php</li>
-<li>views: /admin/manage_readers/view/</li>
+<li>controller: <code>/admin/manage_readers/index.php</code></li>
+<li>views: <code>/admin/manage_readers/view/</code></li>
 </ul>
 </li>
 <li>Manage Authors
 <ul>
-<li>controller: /admin/manage_authors/index.php</li>
-<li>views: /admin/manage_authors/view/</li>
+<li>controller: <code>/admin/manage_authors/index.php</code></li>
+<li>views: <code>/admin/manage_authors/view/</code></li>
 </ul>
 </li>
 <li>Manage Books
 <ul>
-<li>controller: /admin/manage_books/index.php</li>
-<li>views: /admin/manage_books/view/ + /search/view/search_books.php</li>
-<li>utility functions: /admin/manage_books/upload_file.php</li>
+<li>controller: <code>/admin/manage_books/index.php</code></li>
+<li>views: <code>/admin/manage_books/view/</code> + <code>/search/view/search_books.php</code></li>
+<li>utility functions: <code>/admin/manage_books/upload_file.php</code></li>
 </ul>
 </li>
 </ul>
-<p><strong>Reader Section</strong></p>
+<h3 id="reader-section"><strong>Reader Section</strong></h3>
 <ul>
 <li>Login/logout
 <ul>
-<li>controller: /reader/index.php</li>
-<li>views: /reader/view/</li>
+<li>controller: <code>/reader/index.php</code></li>
+<li>views: <code>/reader/view/</code></li>
 </ul>
 </li>
 <li>account
 <ul>
-<li>controller: /reader/display_account/index.php</li>
-<li>views: /reader/display_account/view/</li>
+<li>controller: <code>/reader/display_account/index.php</code></li>
+<li>views: <code>/reader/display_account/view/</code></li>
 </ul>
 </li>
 </ul>
-<p><strong>Library Section</strong><br>
-<em>This is the main search/library section, used by readers and administrators</em></p>
+<h3 id="library-section"><strong>Library Section</strong></h3>
+<p><em>This is the main search/library section, used by readers and administrators</em></p>
 <ul>
-<li>controller: /search/index.php</li>
-<li>views: /search/view/</li>
+<li>controller: <code>/search/index.php</code></li>
+<li>views: <code>/search/view/</code></li>
+</ul>
+<h3 id="file-storage"><strong>File Storage</strong></h3>
+<ul>
+<li>in the books database table, the filepath to the actual files are saved in the database</li>
+<li>When uploading pdf files for books (in add book or edit book operations), the file is uploaded to the <code>/book_files/</code> directory and the filepath is added to the database record for the book</li>
+<li>The file performing the file upload operations is <code>/admin/manage_books/upload_file.php</code></li>
 </ul>
 </div>
 </body>
