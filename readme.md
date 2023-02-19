@@ -89,3 +89,63 @@ password: remember
 ![reader_home](./readme/demo16.png)
 16. Reader -Search library 
 ![reader_search](./readme/demo17.png)
+
+## Structure
+
+The entire application is built using the model-view-controller architecture. 
+- Every section has the controller as the index.php file. 
+- Models are all in the /model/ directory
+- Views relevant to each controller are in the ./view/ directory within the directory of that index.php file
+
+### Site-wide files
+- /util/
+	- main.php : contains global functions and variables used site-wide
+	- secure_conn.php : contains function for enforcing HTTPS used site-wide
+	- validation.php : contains all validation functions used in controllers site-wide
+
+- /view/
+	- header.php : contains the site-wide html for the header along with style scripts
+	- footer.php : contains the side-wide html for the footer along with scripts used by Bootstrap5
+	
+- /model/
+-*contains all the db operations specific to the object/database table*
+	- admin_db.php
+	- author_db.php
+	- book_db.php
+	- BookClass.php : contains the definition of the Book class
+	- database.php : contains the function for connecting to the database
+	- reader_db.php
+	- selection_db.php 
+	
+- /errors/
+	- db_error_connect.php : contains error handling function for db connection failure
+	- db_error.php : contains error handling for all db errors
+	- error.php : contains general error handling functions
+
+**Admin Portal**
+- Login/logout 
+	- controller: /admin/index.php
+	- views: /admin/view/
+- Manage Readers
+	- controller: /admin/manage_readers/index.php
+	- views: /admin/manage_readers/view/
+- Manage Authors
+  - controller: /admin/manage_authors/index.php
+  - views: /admin/manage_authors/view/
+- Manage Books
+  - controller: /admin/manage_books/index.php
+  - views: /admin/manage_books/view/ + /search/view/search_books.php
+  - utility functions: /admin/manage_books/upload_file.php 
+  
+**Reader Section**
+- Login/logout 
+	- controller: /reader/index.php
+	- views: /reader/view/
+- account
+	- controller: /reader/display_account/index.php
+	- views: /reader/display_account/view/
+
+**Library Section**
+*This is the main search/library section, used by readers and administrators*
+- controller: /search/index.php
+- views: /search/view/

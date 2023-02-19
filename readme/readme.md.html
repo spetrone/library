@@ -80,6 +80,101 @@ password: remember</p>
 <li>Reader -Search library<br>
 <img src="./demo17.png" alt="reader_search"></li>
 </ol>
+<h2 id="structure">Structure</h2>
+<p>The entire application is built using the model-view-controller architecture.</p>
+<ul>
+<li>Every section has the controller as the index.php file.</li>
+<li>Models are all in the /model/ directory</li>
+<li>Views relevant to each controller are in the ./view/ directory within the directory of that index.php file</li>
+</ul>
+<h3 id="site-wide-files">Site-wide files</h3>
+<ul>
+<li>
+<p>/util/</p>
+<ul>
+<li>main.php : contains global functions and variables used site-wide</li>
+<li>secure_conn.php : contains function for enforcing HTTPS used site-wide</li>
+<li>validation.php : contains all validation functions used in controllers site-wide</li>
+</ul>
+</li>
+<li>
+<p>/view/</p>
+<ul>
+<li>header.php : contains the site-wide html for the header along with style scripts</li>
+<li>footer.php : contains the side-wide html for the footer along with scripts used by Bootstrap5</li>
+</ul>
+</li>
+<li>
+<p>/model/<br>
+-<em>contains all the db operations specific to the object/database table</em></p>
+<ul>
+<li>admin_db.php</li>
+<li>author_db.php</li>
+<li>book_db.php</li>
+<li>BookClass.php : contains the definition of the Book class</li>
+<li>database.php : contains the function for connecting to the database</li>
+<li>reader_db.php</li>
+<li>selection_db.php</li>
+</ul>
+</li>
+<li>
+<p>/errors/</p>
+<ul>
+<li>db_error_connect.php : contains error handling function for db connection failure</li>
+<li>db_error.php : contains error handling for all db errors</li>
+<li>error.php : contains general error handling functions</li>
+</ul>
+</li>
+</ul>
+<p><strong>Admin Portal</strong></p>
+<ul>
+<li>Login/logout
+<ul>
+<li>controller: /admin/index.php</li>
+<li>views: /admin/view/</li>
+</ul>
+</li>
+<li>Manage Readers
+<ul>
+<li>controller: /admin/manage_readers/index.php</li>
+<li>views: /admin/manage_readers/view/</li>
+</ul>
+</li>
+<li>Manage Authors
+<ul>
+<li>controller: /admin/manage_authors/index.php</li>
+<li>views: /admin/manage_authors/view/</li>
+</ul>
+</li>
+<li>Manage Books
+<ul>
+<li>controller: /admin/manage_books/index.php</li>
+<li>views: /admin/manage_books/view/ + /search/view/search_books.php</li>
+<li>utility functions: /admin/manage_books/upload_file.php</li>
+</ul>
+</li>
+</ul>
+<p><strong>Reader Section</strong></p>
+<ul>
+<li>Login/logout
+<ul>
+<li>controller: /reader/index.php</li>
+<li>views: /reader/view/</li>
+</ul>
+</li>
+<li>account
+<ul>
+<li>controller: /reader/display_account/index.php</li>
+<li>views: /reader/display_account/view/</li>
+</ul>
+</li>
+</ul>
+<p><strong>Library Section</strong><br>
+<em>This is the main search/library section, used by readers and administrators</em></p>
+<ul>
+<li>controller: /search/index.php</li>
+<li>views: /search/view/</li>
+</ul>
 </div>
 </body>
 
