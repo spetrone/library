@@ -59,8 +59,8 @@ switch ($action) {
         //get book list/selections
         $selection = get_book_list($reader_id);
 
-        // View incident update module
-        include("view/reader_account.php");
+        // reload reader page
+        header("Location: " . "./?action=display_account");
         break;
     case 'logout':
         unset($_SESSION['reader']);
