@@ -51,7 +51,7 @@ switch ($action) {
             $validData = 0; //set flag to false
         }
         if(!is_valid_password($password)) {
-            $password_err = "Invalid password. Please use a password between 6 and 
+            $password_err = "Invalid password. Please use a password between 8 and 
             20 characters";
             $validData = 0; //set flag to false
         }     

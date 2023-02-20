@@ -2,7 +2,7 @@
 
 
 function is_valid_password($value) {
-    if (isset($value) && strlen($value) > 5 && strlen($value) < 21 && ctype_alpha($value)) {
+    if (isset($value) && strlen($value) > 7 && strlen($value) < 21 ) {
         return true;
     } else {
         return false;
