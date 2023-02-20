@@ -19,7 +19,7 @@ if (!isset($error_message)) {
 set_include_path($doc_root . $app_path . PATH_SEPARATOR . $doc_main_dir );
 
 // Get common code
-require_once('tags.php');
+
 require_once('model/database.php');
 
 // Define some common functions
