@@ -114,6 +114,21 @@ function author_exists($fname, $lname) {
     }
 } 
 
-
+function author_no_books($author_id) {
+    global $db;
+    $query = 'SELECT * FROM books
+              WHERE authorID = :author_id';
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':author_id', $author_id);
+        $statement->execute();
+        $valid = ($statement->rowCount() == 0);
+        $statement->closeCursor();
+        return $valid;
+    } catch (PDOException $e) {
+        $error_message = $e->getMessage();
+        display_db_error($error_message);
+    }
+} 
 
 ?>

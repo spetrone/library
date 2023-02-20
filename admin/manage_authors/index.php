@@ -40,14 +40,26 @@ switch ($action) {
         
         //select all authors from database
         $author_list = get_all_authors();
+        $err_message = '';
         include "view/show_authors.php";
         break;
     case 'delete_author':
         $author_id = filter_input(INPUT_POST, "author_id");
-        delete_author($author_id);
 
-        //reload page
-        header("Location: " . "./?action=show_authors");
+        //ensure no books are connected with that author
+        if (author_no_books($author_id)) {
+            delete_author($author_id);
+             //reload page
+            header("Location: " . "./?action=show_authors");
+        } else {
+            //stay on page, show error message
+            $err_message = "Author has books in database; Please delete their books before removing author.";
+            //select all authors from database
+            $author_list = get_all_authors();
+            include "view/show_authors.php";
+        }
+
+       
         break;
     case 'show_edit_author':
 

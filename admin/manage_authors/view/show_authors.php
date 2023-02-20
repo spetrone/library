@@ -21,6 +21,10 @@ redirect_not_admin();
             </form>
             </div>
 
+            <div>
+                <p class="errors" ><?php if(isset($err_message)) { echo $err_message; } ?></p>
+            </div>
+
             <!-- list all autho$authos returned from request to server
                 on initial page load, this is all author$authors in the db-->
             <table class="table">
