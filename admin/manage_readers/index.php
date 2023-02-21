@@ -69,7 +69,7 @@ switch ($action) {
             $fname = $reader["firstName"];
             $lname = $reader["lastName"];
             $email = $reader["email"];
-            $password = $reader["password"];
+            $password = '';
             include "view/edit_reader.php";
         } else { //no reader is selected, redirect
             header("Location: " . "./?action=show_readers");
@@ -105,7 +105,7 @@ switch ($action) {
             $email_err = "invalid email, please enter as form xxxxx@xxxx.xxxx";
             $valid = 0;
         }
-        if (!validate_password($password)) {
+        if ($password != '' && !validate_password($password)) {
             $password_err = "Invalid password, please enter at between 8 and 128 characters";
             $valid = 0;
         }
@@ -113,9 +113,18 @@ switch ($action) {
         //add if valid, otherwise show errors
         if($valid) {
             //hash password
-            $password = password_hash($password, PASSWORD_DEFAULT);
-            update_reader($reader_id, $fname, $lname, $email, $password);
-            $success_message = "succesfully edited user!";
+            if($password != '') { //if password is updated
+                $password = password_hash($password, PASSWORD_DEFAULT);
+                update_reader($reader_id, $fname, $lname, $email, $password);
+                $success_message = "succesfully edited user!";
+                //reset passsword var to not show on client side
+                $password = '';
+            } else { //password not edited
+                update_reader_no_pass($reader_id, $fname, $lname, $email);
+                $success_message = "succesfully edited user!";
+            }
+            
+            
             include "view/edit_reader.php"; //show success message on same page
         } else {
             include "view/edit_reader.php"; //go back to same page, show errors
@@ -173,6 +182,8 @@ switch ($action) {
             add_reader($fname, $lname, $email, $password);
             $reader_id = (get_reader_by_email($email))["readerID"];
             $success_message = "succesfully added user!";
+            //reset passsword var to not show on client side
+            $password = '';
             include "view/edit_reader.php"; //bring to edit user if they want
         } else {
             include "view/add_reader.php"; //go back to same page, show errors

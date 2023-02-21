@@ -149,6 +149,27 @@ function update_reader($reader_id, $f_name, $l_name, $email, $password) {
     }
 }
 
+function update_reader_no_pass($reader_id, $f_name, $l_name, $email) {
+    global $db;
+    $query = 'UPDATE readers
+              SET readerID = :reader_id, firstName = :f_name, lastName = :l_name, email = :email
+              WHERE readerID = :reader_id';
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':reader_id', $reader_id);
+        $statement->bindValue(':f_name', $f_name);
+        $statement->bindValue(':l_name', $l_name);
+        $statement->bindValue(':email', $email);
+        $statement->execute();
+        $statement->closeCursor();
+        // Get the last product ID that was automatically generated
+        $reader_id = $db->lastInsertId();
+        return $reader_id;
+    } catch (PDOException $e) {
+        $error_message = $e->getMessage();
+        display_db_error($error_message);
+    }
+}
 
 function delete_reader($reader_id) {
     global $db;

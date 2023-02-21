@@ -117,7 +117,7 @@ switch ($action) {
         if($valid) {
 
             update_author($author_id, $fname, $lname);
-            $success_message = "succesfully edited user!";
+            $success_message = "succesfully edited author!";
             include "view/edit_author.php"; //show success message on same page
         } else {
             include "view/edit_author.php"; //go back to same page, show errors

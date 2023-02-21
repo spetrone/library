@@ -142,7 +142,7 @@ switch ($action) {
             else
                 $db_id = add_book($book);
             
-            $success_message = "Successfully added book!";
+            $success_message = "Successfully updated book!";
             unset($_SESSION["selected_book"]);
             
             include "view/success_edit_book.php";
