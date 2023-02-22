@@ -82,54 +82,72 @@ switch ($action) {
         //set vars for reloads if user did not enter anything
         $fname = $lname = $email = $password = ''; //reset/initialize for page reloads
 
-        //get form data
-        $reader_id = filter_input(INPUT_POST, "reader_id");
-        $fname = filter_input(INPUT_POST, "first_name");
-        $lname = filter_input(INPUT_POST, "last_name");
-        $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
-        $password = filter_input(INPUT_POST, "password");
+        if(isset($_POST["reader_id"])) {
+            $_SESSION["edit_reader"] = $reader_id = filter_input(INPUT_POST, "reader_id");
+            //get form data
+            $reader_id = filter_input(INPUT_POST, "reader_id");
+            $fname = filter_input(INPUT_POST, "first_name");
+            $lname = filter_input(INPUT_POST, "last_name");
+            $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
+            $password = filter_input(INPUT_POST, "password");
+            $reader = get_reader_by_id($reader_id); //do db call for comparing email
 
-        $valid = 1; //set flag to true
+            $valid = 1; //set flag to true
 
-        //validate input
+            //validate input
 
-        if (!validate_name($fname)) {
-            $f_name_err = "invalid firstname, please enter a name < 255 chars";
-            $valid = 0;
-        }
-        if (!validate_name($lname)) {
-            $l_name_err = "invalid firstname, please enter a name < 255 chars";
-            $valid = 0;
-        }
-        if (!is_valid_email($email)) {
-            $email_err = "invalid email, please enter as form xxxxx@xxxx.xxxx";
-            $valid = 0;
-        }
-        if ($password != '' && !validate_password($password)) {
-            $password_err = "Invalid password, please enter at between 8 and 128 characters";
-            $valid = 0;
-        }
-
-        //add if valid, otherwise show errors
-        if($valid) {
-            //hash password
-            if($password != '') { //if password is updated
-                $password = password_hash($password, PASSWORD_DEFAULT);
-                update_reader($reader_id, $fname, $lname, $email, $password);
-                $success_message = "succesfully edited user!";
-                //reset passsword var to not show on client side
-                $password = '';
-            } else { //password not edited
-                update_reader_no_pass($reader_id, $fname, $lname, $email);
-                $success_message = "succesfully edited user!";
+            if (!validate_name($fname)) {
+                $f_name_err = "invalid firstname, please enter a name < 255 chars";
+                $valid = 0;
             }
-            
+            if (!validate_name($lname)) {
+                $l_name_err = "invalid firstname, please enter a name < 255 chars";
+                $valid = 0;
+            }
+            if (!is_valid_email($email)) {
+                $email_err = "invalid email, please enter as form xxxxx@xxxx.xxxx";
+                $valid = 0;
+            }
+
+            if ($email != $reader["email"] && is_used_email($email)) {
+                $email_err .= "duplicate email, please use another email.";
+                $valid = 0;
+            }
+            if ($password != '' && !validate_password($password)) {
+                $password_err = "Invalid password, please enter at between 8 and 128 characters";
+                $valid = 0;
+            }
+
+            //add if valid, otherwise show errors
+            if($valid) {
+                //hash password
+                if($password != '') { //if password is updated
+                    $password = password_hash($password, PASSWORD_DEFAULT);
+                    update_reader($reader_id, $fname, $lname, $email, $password);
+                    $success_message = "succesfully edited user!";
+                    //reset passsword var to not show on client side
+                    $password = '';
+                } else { //password not edited
+                    update_reader_no_pass($reader_id, $fname, $lname, $email);
+                    $success_message = "succesfully edited user!";
+                }
+                
             
             include "view/edit_reader.php"; //show success message on same page
-        } else {
-            include "view/edit_reader.php"; //go back to same page, show errors
-        }
+            } else {
+                include "view/edit_reader.php"; //go back to same page, show errors
+            }
+        } else if (isset($_SESSION["edit_reader"])) {
+            $reader_id = $_SESSION["edit_reader"];
        
+            $reader = get_reader_by_id($reader_id); //do db call
+            $f_name_err = $l_name_err = $email_err = $password_err = $success_message ="";
+            $fname = $reader["firstName"];
+            $lname = $reader["lastName"];
+            $email = $reader["email"];
+            $password = '';
+            include "view/edit_reader.php";
+        }
         break;
     case 'show_add_reader':
         //set strings used in page
