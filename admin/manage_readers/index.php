@@ -161,50 +161,63 @@ switch ($action) {
         //set vars for reloads if user did not enter anything
         $fname = $lname = $email = $password = ''; //reset/initialize for page reloads
 
-        //get form data
-        $fname = filter_input(INPUT_POST, "first_name");
-        $lname = filter_input(INPUT_POST, "last_name");
-        $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
-        $password = filter_input(INPUT_POST, "password");
+        //only perform tasks if post is set
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            //get form data
+            $fname = filter_input(INPUT_POST, "first_name");
+            $lname = filter_input(INPUT_POST, "last_name");
+            $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
+            $password = filter_input(INPUT_POST, "password");
 
-        $valid = 1; //set flag to true
+            $valid = 1; //set flag to true
 
-        //validate input
+            //validate input
 
-        if (!validate_name($fname)) {
-            $f_name_err = "invalid firstname, please enter a name < 255 chars";
-            $valid = 0;
-        }
-        if (!validate_name($lname)) {
-            $l_name_err = "invalid firstname, please enter a name < 255 chars";
-            $valid = 0;
-        }
-        if (!is_valid_email($email)) {
-            $email_err = "invalid email, please enter as form xxxxx@xxxx.xxxx";
-            $valid = 0;
-        }
+            if (!validate_name($fname)) {
+                $f_name_err = "invalid firstname, please enter a name < 255 chars";
+                $valid = 0;
+            }
+            if (!validate_name($lname)) {
+                $l_name_err = "invalid firstname, please enter a name < 255 chars";
+                $valid = 0;
+            }
+            if (!is_valid_email($email)) {
+                $email_err = "invalid email, please enter as form xxxxx@xxxx.xxxx";
+                $valid = 0;
+            }
 
-        if (is_used_email($email)) {
-            $email_err .= "duplicate email, please use another email.";
-            $valid = 0;
-        }
-        if (!validate_password($password)) {
-            $password_err = "Invalid password, please enter at between 8 and 128 characters";
-            $valid = 0;
-        }
+            if (is_used_email($email)) {
+                $email_err .= "duplicate email, please use another email.";
+                $valid = 0;
+            }
+            if (!validate_password($password)) {
+                $password_err = "Invalid password, please enter at between 8 and 128 characters";
+                $valid = 0;
+            }
 
-        //add if valid, otherwise show errors
-        if($valid) {
-            //hash the password
-            $password = password_hash($password, PASSWORD_DEFAULT);
-            add_reader($fname, $lname, $email, $password);
-            $reader_id = (get_reader_by_email($email))["readerID"];
-            $success_message = "succesfully added user!";
-            //reset passsword var to not show on client side
-            $password = '';
-            include "view/edit_reader.php"; //bring to edit user if they want
-        } else {
-            include "view/add_reader.php"; //go back to same page, show errors
+            //add if valid, otherwise show errors
+            if($valid) {
+                //hash the password
+                $password = password_hash($password, PASSWORD_DEFAULT);
+                add_reader($fname, $lname, $email, $password);
+                $_SESSION["edit_reader"] = $reader_id = (get_reader_by_email($email))["readerID"];
+                $success_message = "succesfully added user!";
+                //set session variable as it will head to edit reader page and needs it
+                //reset passsword var to not show on client side
+                $password = '';
+                include "view/edit_reader.php"; //edit show success message
+            } else {
+                include "view/add_reader.php"; //go back to same page, show errors
+            }
+        } //if POSt
+        else {
+            //re-load page
+            if(isset($_SESSION["edit_reader"])){
+                header("Location: ". "./?action=show_edit_reader");
+            } else {
+                include "view/add_reader.php"; //show page, everything blank
+            }
+            
         }
         break;
     default:
