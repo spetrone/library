@@ -84,75 +84,79 @@ switch ($action) {
         include "view/edit_book.php";
         break;
     case 'edit_book':
-        $page_type = $_POST["page_type"]; //get information about type of form
-        //1 is add, 2 is edit
-        $success_message = ""; //initialize/reset success message
-        $upload_msg = ""; //initialize/reset upload message
-        $target_file = null; //initialize target file path to null
-        $year_error = ""; //reset/initialize error for year
-        $title_error = ""; //reset/initialize error for title
-        $isValid = 1; //flag for valid form data
+        if(isset($_POST["page_type"]) ){ //if posted
+            $page_type = $_POST["page_type"]; //get information about type of form
+            //1 is add, 2 is edit
+            $success_message = ""; //initialize/reset success message
+            $upload_msg = ""; //initialize/reset upload message
+            $target_file = null; //initialize target file path to null
+            $year_error = ""; //reset/initialize error for year
+            $title_error = ""; //reset/initialize error for title
+            $isValid = 1; //flag for valid form data
 
-        //update book, doing form validation
-        $book = new Book();
+            //update book, doing form validation
+            $book = new Book();
 
-        if ($page_type == 2) { //if editing
-            $book->setBookID($_POST["book_id"]);
-        }
-        
-        //adding or editing, calidatoe title and year
-        if (validate_book_title(filter_input(INPUT_POST, 'book_title')) && $isValid) {
-            $book->setTitle(filter_input(INPUT_POST, 'book_title'));
-        } else {
-            $title_error = "invalid book title, please enter title < 255 chars.";
-            $isValid = 0;
-        }
-        
-        //author is selected, no validation needed in this form
-        if ($isValid) {
-            $book->setAuthorID($_POST["author_selector"]);
-        }
-
-        if (validate_year(filter_input(INPUT_POST, 'publish_year')) && $isValid ) {
-            $book->setPublishYear(filter_input(INPUT_POST, 'publish_year'));
-        } else {
-            $year_error = "invalid year, please enter a 4-digit year YYYY.";
-            $isValid = 0;
-        }
-        
-
-        //get filepath
-        include "upload_file.php";
-        //use uploadOK flag from upload_file.php
-        if ($uploadOk) {
-            $book->setFilepath($filepath);
-        } 
-        
-        //show message of success or errors
-        if ($isValid) {
-            $db_id = 0; //initialize to 0
-            //if valid, submit to db, show success message
-            if((int)$_POST["page_type"] == 2)
-                if($book->getFilepath() != "") { //if file path set, update with filepath
-                    $db_id = update_book($book); 
-                } else { //update without file path
-                    $db_id = update_book_no_fp($book); 
-                }
-                   
-            else
-                $db_id = add_book($book);
+            if ($page_type == 2) { //if editing
+                $book->setBookID($_POST["book_id"]);
+            }
             
-            $success_message = "Successfully updated book!";
-            unset($_SESSION["selected_book"]);
+            //adding or editing, calidatoe title and year
+            if (validate_book_title(filter_input(INPUT_POST, 'book_title')) && $isValid) {
+                $book->setTitle(filter_input(INPUT_POST, 'book_title'));
+            } else {
+                $title_error = "invalid book title, please enter title < 255 chars.";
+                $isValid = 0;
+            }
             
-            include "view/success_edit_book.php";
-        } else {
-            $success_message = "Could not edit book.";
-            #get author list for edit book form
-            $author_list = get_all_authors();
-            include "view/edit_book.php";
+            //author is selected, no validation needed in this form
+            if ($isValid) {
+                $book->setAuthorID($_POST["author_selector"]);
+            }
+
+            if (validate_year(filter_input(INPUT_POST, 'publish_year')) && $isValid ) {
+                $book->setPublishYear(filter_input(INPUT_POST, 'publish_year'));
+            } else {
+                $year_error = "invalid year, please enter a 4-digit year YYYY.";
+                $isValid = 0;
+            }
+            
+
+            //get filepath
+            include "upload_file.php";
+            //use uploadOK flag from upload_file.php
+            if ($uploadOk) {
+                $book->setFilepath($filepath);
+            } 
+            
+            //show message of success or errors
+            if ($isValid) {
+                $db_id = 0; //initialize to 0
+                //if valid, submit to db, show success message
+                if((int)$_POST["page_type"] == 2)
+                    if($book->getFilepath() != "") { //if file path set, update with filepath
+                        $db_id = update_book($book); 
+                    } else { //update without file path
+                        $db_id = update_book_no_fp($book); 
+                    }
+                    
+                else
+                    $db_id = add_book($book);
+                
+                $success_message = "Successfully updated book!";
+                unset($_SESSION["selected_book"]);
+                
+                include "view/success_edit_book.php";
+            } else {
+                $success_message = "Could not edit book.";
+                #get author list for edit book form
+                $author_list = get_all_authors();
+                include "view/edit_book.php";
+            }
+        } else { //page refreshed after error message 
+            //go back to book list
+            header("Location: " . "./?action=load_books");
         }
-        
         break;
     default:
     $error_message = 'Unknown account action: ' . $action;
