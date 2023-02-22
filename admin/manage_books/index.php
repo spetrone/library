@@ -114,7 +114,7 @@ switch ($action) {
                 $book->setAuthorID($_POST["author_selector"]);
             }
 
-            if (validate_year(filter_input(INPUT_POST, 'publish_year')) && $isValid ) {
+            if (validate_year(filter_input(INPUT_POST, 'publish_year'))) {
                 $book->setPublishYear(filter_input(INPUT_POST, 'publish_year'));
             } else {
                 $year_error = "invalid year, please enter a 4-digit year YYYY.";
@@ -154,8 +154,8 @@ switch ($action) {
                 include "view/edit_book.php";
             }
         } else { //page refreshed after error message 
-            //go back to book list
-            header("Location: " . "./?action=load_books");
+            //refresh page to default (add book)
+            header("Location: " . "./?action=show_edit_book");
         }
         break;
     default:
